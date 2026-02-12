@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>UNO Q Apps Library</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="wrap">
+    <h1>UNO Q Apps Library</h1>
+    <p class="sub">Raccolta di app esportate da Arduino App Lab per Arduino UNO Q (ZIP pronti da importare).</p>
+
+    <div class="notice">
+      <strong>Nota:</strong> progetto community non affiliato ad Arduino.
+    </div>
+
+    <div class="controls">
+      <input id="q" type="search" placeholder="Cerca (es. matrix, web, servo)..." />
+      <select id="tag">
+        <option value="">Tutti i tag</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="grid" class="grid"></div>
+
+    <footer class="footer">
+      <p>
+        Vuoi inviare un’app? Apri una Issue nel repo con descrizione + ZIP allegato.
+      </p>
+      <p class="tiny">
+        Arduino® è un marchio registrato. Questo sito è indipendente e non affiliato ad Arduino.
+      </p>
+    </footer>
+  </main>
+
+  <script src="apps/apps.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
