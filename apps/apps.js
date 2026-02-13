@@ -9,9 +9,7 @@ const APPS = [
     demo: "",
     thumbText: "Roulette"
   }
-];
-
-const APPS = [
+  ,
   {
     id: "display-a-7-segmenti",
     title: "Controllo via WEB di un Display a 7 segmenti",
