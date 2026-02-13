@@ -17,7 +17,12 @@ function render(apps) {
     const req = a.requires ? `Componenti: ${a.requires}` : "";
 
     el.innerHTML = `
-      <div class="thumb">${a.thumbText || "Preview"}</div>
+      <div class="thumb">
+  ${a.preview
+    ? `<img src="${a.preview}" alt="Preview ${a.title}" loading="lazy">`
+    : `<span>${a.thumbText || "Preview"}</span>`
+  }
+</div>
       <div class="content">
         <h3>${a.title}</h3>
         <p class="meta">${a.desc || ""}</p>
