@@ -7,7 +7,7 @@ const APPS = [
     requires: "UNO Q, LED, Servo, Pulsante",
     zip: "https://raw.githubusercontent.com/gerry-tech/gerry-uno-q-apps/main/apps/roulette-servo/Roulette.zip",
     demo: "",
-    preview: "/gerry-uno-q-apps/apps/roulette-servo/preview.jpeg",
+    preview: "/gerry-uno-q-apps/apps/roulette-servo/preview.jpg",
     badge: "FEATURED",
     thumbText: "Roulette"
   }
