@@ -3,34 +3,43 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Download Arduino UNO Q Apps Free - UNO Q App Library</title>
-  <meta name="description" content="Download apps gratuite per Arduino UNO Q. ZIP pronti da importare in Arduino App Lab. Matrix, Web UI, Servo control e progetti community." />
-  <meta name="keywords" content="Arduino UNO Q apps, download Arduino apps, Arduino App Lab zip, Arduino UNO Q projects, free Arduino apps" />
-  <link rel="stylesheet" href="style.css?v=4" />
+  <title>UNO Q Apps Library</title>
+
+  <meta name="description" content="Download apps gratuite per Arduino UNO Q. ZIP pronti da importare in Arduino App Lab. Web UI, Servo, Matrix e progetti community." />
+
+  <!-- cache-buster -->
+  <link rel="stylesheet" href="style.css?v=10" />
+
+  <!-- (opzionale) favicon: evita 404 -->
+  <link rel="icon" href="data:,">
 </head>
+
 <body>
   <header class="wrap">
     <h1>UNO Q Apps Library</h1>
-    <p>
-Download apps gratuite per Arduino UNO Q. Qui trovi applicazioni esportate da Arduino App Lab in formato ZIP,
-pronte da importare e utilizzare subito. Web apps, controlli servo, matrix LED e progetti della community.
-</p>
+    <p class="sub">
+      Download apps gratuite per Arduino UNO Q. ZIP pronti da importare in Arduino App Lab.
+      Web apps, controlli servo, matrix LED e progetti della community.
+    </p>
+
     <div class="notice">
       <strong>Nota:</strong> progetto community non affiliato ad Arduino.
     </div>
+
     <section class="channel">
-  <div class="channel-card">
-    <img class="channel-img" src="/gerry-uno-q-apps/assets/banner.jpg" alt="Gerry&Tech">
-    <div class="channel-info">
-      <h2>Gerry&Tech</h2>
-      <p>Arduino UNO Q, elettronica easy→pro, progetti veri e app della community.</p>
-      <div class="channel-cta">
-        <a class="btn primary" href="https://www.youtube.com/channel/UCjXdbreXXKrvXyU1SvKOJqw" target="_blank" rel="noreferrer">Vai al canale</a>
-        <a class="btn" href="https://github.com/gerry-tech/gerry-uno-q-apps" target="_blank" rel="noreferrer">Repo GitHub</a>
+      <div class="channel-card">
+        <img class="channel-img" src="assets/banner.jpg" alt="Gerry&Tech">
+        <div class="channel-info">
+          <h2>Gerry&Tech</h2>
+          <p>Arduino UNO Q, elettronica easy→pro, progetti veri e app della community.</p>
+          <div class="channel-cta">
+            <a class="btn primary" href="https://www.youtube.com/channel/UCjXdbreXXKrvXyU1SvKOJqw" target="_blank" rel="noreferrer">Vai al canale</a>
+            <a class="btn" href="https://github.com/gerry-tech/gerry-uno-q-apps" target="_blank" rel="noreferrer">Repo GitHub</a>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+
     <div class="controls">
       <input id="q" type="search" placeholder="Cerca (es. matrix, web, servo)..." />
       <select id="tag">
@@ -43,16 +52,13 @@ pronte da importare e utilizzare subito. Web apps, controlli servo, matrix LED e
     <div id="grid" class="grid"></div>
 
     <footer class="footer">
-      <p>
-        Vuoi inviare un’app? Apri una Issue nel repo con descrizione + ZIP allegato.
-      </p>
-      <p class="tiny">
-        Arduino® è un marchio registrato. Questo sito è indipendente e non affiliato ad Arduino.
-      </p>
+      <p>Vuoi inviare un’app? Apri una Issue nel repo con descrizione + ZIP allegato.</p>
+      <p class="tiny">Arduino® è un marchio registrato. Questo sito è indipendente e non affiliato ad Arduino.</p>
     </footer>
   </main>
 
-  <script src="apps/apps.js?v=4"></script>
-<script src="main.js?v=4"></script>
+  <!-- IMPORTANT: carica prima la lista apps -->
+  <script src="apps/apps.js?v=10"></script>
+  <script src="main.js?v=10"></script>
 </body>
 </html>
