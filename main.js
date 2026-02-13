@@ -1,4 +1,6 @@
-function uniq(arr) { return [...new Set(arr)].sort((a,b)=>a.localeCompare(b)); }
+function uniq(arr) {
+  return [...new Set(arr)].sort((a,b)=>a.localeCompare(b));
+}
 
 function render(apps) {
   const grid = document.getElementById("grid");
@@ -16,25 +18,32 @@ function render(apps) {
     const tags = (a.tags || []).map(t => `<span class="tag">${t}</span>`).join("");
     const req = a.requires ? `Componenti: ${a.requires}` : "";
 
+    // ✅ BADGE FIXATO (fuori dal template string)
+    const badge = a.badge ? `<div class="badge">${a.badge}</div>` : "";
+
     el.innerHTML = `
-      const badge = a.badge ? `<div class="badge">${a.badge}</div>` : "";
+      ${badge}
+
       <div class="thumb">
-  ${a.preview
-    ? `<img src="${a.preview}" alt="Preview ${a.title}" loading="lazy">`
-    : `<span>${a.thumbText || "Preview"}</span>`
-  }
-</div>
+        ${a.preview
+          ? `<img src="${a.preview}" alt="Preview ${a.title}" loading="lazy">`
+          : `<span>${a.thumbText || "Preview"}</span>`
+        }
+      </div>
+
       <div class="content">
         <h3>${a.title}</h3>
         <p class="meta">${a.desc || ""}</p>
         <div class="tags">${tags}</div>
         <p class="meta">${req}</p>
+
         <div class="btns">
           <a class="btn primary" href="${a.zip}" target="_blank" rel="noreferrer">Download ZIP</a>
           ${a.demo ? `<a class="btn" href="${a.demo}" target="_blank" rel="noreferrer">Demo</a>` : ""}
         </div>
       </div>
     `;
+
     grid.appendChild(el);
   }
 }
@@ -44,6 +53,7 @@ function setupFilters(allApps) {
   const tag = document.getElementById("tag");
 
   const allTags = uniq(allApps.flatMap(a => a.tags || []));
+
   for (const t of allTags) {
     const opt = document.createElement("option");
     opt.value = t;
@@ -57,8 +67,10 @@ function setupFilters(allApps) {
 
     const filtered = allApps.filter(a => {
       const hay = `${a.title} ${a.desc || ""} ${(a.tags||[]).join(" ")} ${a.requires||""}`.toLowerCase();
+
       const okQ = !query || hay.includes(query);
       const okT = !t || (a.tags || []).includes(t);
+
       return okQ && okT;
     });
 
@@ -67,6 +79,7 @@ function setupFilters(allApps) {
 
   q.addEventListener("input", apply);
   tag.addEventListener("change", apply);
+
   apply();
 }
 
