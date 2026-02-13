@@ -17,7 +17,7 @@ const APPS = [
     tags: ["WEB", "DISPLAY", "EASY"],
     requires: "UNO Q, Display a 7 segmenti, (opz) alimentazione esterna",
     zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/display-a-7-segmenti/Display%20a%207%20segmenti.zip",
-    preview: "apps/dispay-a-7-segmenti/preview.jpg",
+    preview: "apps/dispay-a-7-segmenti/preview.jpeg",
     thumbText: "Display a 7 Segmenti"
   }
 ];
