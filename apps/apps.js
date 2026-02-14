@@ -28,5 +28,15 @@ const APPS = [
     zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/stickman/MatrixAnimation.zip",
     preview: "apps/stickman/preview.png",
     badge: "NEW"
+  },
+  {
+    id: "reaction-time-test",
+    title: "Test dei Tempi di Reazione",
+    desc: "Crea una Pagina WEB dove puoi iniziare la prova e scrive dopo quanto tempo reazisci.",
+    tags: ["LDR","LED","GAME"],
+    requires: "UNO Q, Resistori, LED, Fotoresistore",
+    zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/stickman/MatrixAnimation.zip",
+    preview: "apps/reaction-time-test/preview.png",
+    badge: "NEW"
   }
 ];
