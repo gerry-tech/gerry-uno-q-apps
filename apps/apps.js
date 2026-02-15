@@ -7,7 +7,8 @@ const APPS = [
     requires: "UNO Q, LED, Servo, Pulsante",
     zip: "https://raw.githubusercontent.com/gerry-tech/gerry-uno-q-apps/main/apps/roulette-servo/Roulette.zip",
     preview: "apps/roulette-servo/preview.jpg",
-    badge: "FEATURED"
+    badge: "FEATURED",
+    demo: "https://www.youtube.com/watch?v=O9AB-pAx9fA"
   },
   {
     id: "display-a-7-segmenti",
@@ -28,7 +29,8 @@ const APPS = [
     zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/stickman/MatrixAnimation.zip",
     preview: "apps/stickman/preview.png",
     badge: "FEATURED",
-    new: true
+    new: true,
+    demo: "https://www.youtube.com/watch?v=jkG8Zr1GLo0"
   },
   {
     id: "reaction-time-test",
@@ -40,6 +42,6 @@ const APPS = [
     preview: "apps/reaction-time-test/preview.png",
     badge: "FEATURED",
     new: true,
-    demo: "https://www.youtube.com/watch?v=7TkriRXS7Pw&t=109s"
+    demo: "https://www.youtube.com/watch?v=7TkriRXS7Pw"
   }
 ];
