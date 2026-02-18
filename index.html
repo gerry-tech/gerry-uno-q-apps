@@ -1,20 +1,24 @@
 <!doctype html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>UNO Q Apps Library</title>
+  <title>UNO Q APPS STORE | Gerry&Tech FREE Arduino UNO Q Apps Download</title>
 
-  <meta name="description" content="Download apps gratuite per Arduino UNO Q. ZIP pronti da importare in Arduino App Lab. Web UI, Servo, Matrix e progetti community." />
+  <meta name="description" content="Professional international app store for Arduino UNO Q projects. Discover, filter, favorite, and download ready-to-import ZIP apps from the community." />
 
-  <link rel="stylesheet" href="style.css?v=1110" />
+  <link rel="stylesheet" href="style.css?v=121" />
   <link rel="icon" href="data:,">
 </head>
 
 <body>
-  <div class="site-version">v1.1</div>
+  <div class="site-version">v1.2</div>
 
-  <!-- FX layers -->
+  <div class="lang-toggle" role="group" aria-label="Language">
+    <button id="langEN" class="lang-btn" type="button" aria-pressed="false">EN</button>
+    <button id="langIT" class="lang-btn" type="button" aria-pressed="false">IT</button>
+  </div>
+
   <div class="fx fx-pcb" aria-hidden="true"></div>
   <div class="fx fx-scan" aria-hidden="true"></div>
   <div class="fx fx-noise" aria-hidden="true"></div>
@@ -22,38 +26,35 @@
   <header class="wrap hero">
     <div class="hero-top">
       <div class="hero-title">
-        <div class="kicker">Arduino UNO Q • Community Hub</div>
-        <h1>UNO Q Apps Library</h1>
-        <p class="sub">
-          Download apps gratuite per Arduino UNO Q. ZIP pronti da importare in Arduino App Lab.
-          Web apps, controlli servo, matrix LED e progetti della community.
-        </p>
+        <div class="kicker" data-i18n="kicker">Arduino UNO Q • Community Hub</div>
+        <h1 data-i18n="hero_title">UNO Q APPS STORE</h1>
+        <p class="sub" data-i18n="hero_sub">A professional, international app catalog for Arduino UNO Q with curated ZIP projects and real community builds.</p>
 
-        <!-- CTA ROW -->
-<div class="hero-actions">
-  <a href="https://discord.gg/9DG42pSMGm" target="_blank" rel="noreferrer" class="discord-cta">
-    <span class="discord-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" role="img">
-        <path d="M19.54 0H4.46C2 0 0 2.02 0 4.5v15C0 21.98 2 24 4.46 24h12.62l-.6-2.08 1.45 1.35 1.37 1.27L24 24V4.5C24 2.02 22 0 19.54 0ZM15.84 16.8s-.35-.42-.64-.8c1.27-.36 1.75-1.16 1.75-1.16-.4.26-.78.44-1.12.56-.5.2-.98.33-1.45.41-.96.18-1.84.13-2.6-.01-.57-.1-1.06-.24-1.47-.41-.23-.09-.48-.2-.74-.34-.03-.02-.06-.03-.09-.05-.02-.01-.03-.02-.04-.03-.18-.1-.28-.17-.28-.17s.46.78 1.67 1.15c-.29.38-.65.83-.65.83-2.15-.07-2.97-1.48-2.97-1.48 0-3.13 1.4-5.67 1.4-5.67 1.4-1.05 2.73-1.02 2.73-1.02l.1.12c-1.75.5-2.56 1.26-2.56 1.26s.21-.11.57-.27c1.03-.45 1.85-.57 2.19-.6.06-.01.11-.02.17-.02.62-.08 1.33-.1 2.08-.02.99.11 2.05.39 3.12 1.01 0 0-.77-.73-2.43-1.23l.14-.15s1.33-.03 2.73 1.02c0 0 1.4 2.54 1.4 5.67 0 0-.83 1.41-2.98 1.48ZM9.27 12.78c-.55 0-1-.5-1-1.11 0-.61.44-1.11 1-1.11.55 0 1 .5 1 1.11 0 .61-.45 1.11-1 1.11Zm5.46 0c-.55 0-1-.5-1-1.11 0-.61.45-1.11 1-1.11s1 .5 1 1.11c0 .61-.45 1.11-1 1.11Z" />
-      </svg>
-    </span>
-    Join Our Discord
-  </a>
-</div>
+        <div class="hero-actions">
+          <a href="https://discord.gg/9DG42pSMGm" target="_blank" rel="noreferrer" class="discord-cta">
+            <span class="discord-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true" role="img">
+                <path d="M19.54 0H4.46C2 0 0 2.02 0 4.5v15C0 21.98 2 24 4.46 24h12.62l-.6-2.08 1.45 1.35 1.37 1.27L24 24V4.5C24 2.02 22 0 19.54 0ZM15.84 16.8s-.35-.42-.64-.8c1.27-.36 1.75-1.16 1.75-1.16-.4.26-.78.44-1.12.56-.5.2-.98.33-1.45.41-.96.18-1.84.13-2.6-.01-.57-.1-1.06-.24-1.47-.41-.23-.09-.48-.2-.74-.34-.03-.02-.06-.03-.09-.05-.02-.01-.03-.02-.04-.03-.18-.1-.28-.17-.28-.17s.46.78 1.67 1.15c-.29.38-.65.83-.65.83-2.15-.07-2.97-1.48-2.97-1.48 0-3.13 1.4-5.67 1.4-5.67 1.4-1.05 2.73-1.02 2.73-1.02l.1.12c-1.75.5-2.56 1.26-2.56 1.26s.21-.11.57-.27c1.03-.45 1.85-.57 2.19-.6.06-.01.11-.02.17-.02.62-.08 1.33-.1 2.08-.02.99.11 2.05.39 3.12 1.01 0 0-.77-.73-2.43-1.23l.14-.15s1.33-.03 2.73 1.02c0 0 1.4 2.54 1.4 5.67 0 0-.83 1.41-2.98 1.48ZM9.27 12.78c-.55 0-1-.5-1-1.11 0-.61.44-1.11 1-1.11.55 0 1 .5 1 1.11 0 .61-.45 1.11-1 1.11Zm5.46 0c-.55 0-1-.5-1-1.11 0-.61.45-1.11 1-1.11s1 .5 1 1.11c0 .61-.45 1.11-1 1.11Z" />
+              </svg>
+            </span>
+            <span data-i18n="join_discord">Join Our Discord</span>
+          </a>
+          <a href="https://github.com/gerry-tech/gerry-uno-q-apps/issues/new" target="_blank" rel="noreferrer" class="btn submit-app-cta">
+            <span data-i18n="submit_app">Submit your app</span>
+          </a>
+        </div>
+
         <div class="hero-pills">
-          <span class="pill">ZIP Pronti</span>
-          <span class="pill">Web UI</span>
-          <span class="pill">Matrix</span>
-          <span class="pill">Servo</span>
+          <span class="pill" data-i18n="pill_zip">Ready ZIPs</span>
+          <span class="pill" data-i18n="pill_web">Web UI</span>
+          <span class="pill" data-i18n="pill_matrix">Matrix</span>
+          <span class="pill" data-i18n="pill_servo">Servo</span>
         </div>
       </div>
 
       <div class="hero-side">
         <div id="videoPing" class="video-ping" hidden></div>
-
-        <div class="notice">
-          <strong>Nota:</strong> progetto community non affiliato ad Arduino.
-        </div>
+        <div class="notice"><strong data-i18n="note_label">Note:</strong> <span data-i18n="note_text">Independent project, not affiliated with Arduino.</span></div>
       </div>
     </div>
 
@@ -62,41 +63,86 @@
         <img class="channel-img" src="assets/banner.jpg" alt="Gerry&Tech">
         <div class="channel-info">
           <h2>Gerry&Tech</h2>
-          <p>Arduino UNO Q, elettronica easy→pro, progetti veri e app della community.</p>
+          <p data-i18n="channel_desc">Arduino UNO Q tutorials from beginner to pro, hands-on electronics, and community apps.</p>
           <div class="channel-cta">
-            <a class="btn primary" href="https://www.youtube.com/channel/UCjXdbreXXKrvXyU1SvKOJqw" target="_blank" rel="noreferrer">Vai al canale</a>
-            <a class="btn" href="https://github.com/gerry-tech/gerry-uno-q-apps" target="_blank" rel="noreferrer">Repo GitHub</a>
+            <a class="btn primary" href="https://www.youtube.com/channel/UCjXdbreXXKrvXyU1SvKOJqw" target="_blank" rel="noreferrer"><span data-i18n="go_channel">Go to channel</span></a>
+            <a class="btn" href="https://github.com/gerry-tech/gerry-uno-q-apps" target="_blank" rel="noreferrer"><span data-i18n="repo_github">GitHub Repo</span></a>
           </div>
         </div>
       </div>
     </section>
 
+    <section class="quick-stats" aria-live="polite">
+      <div class="stat-card">
+        <span data-i18n="stat_apps">Apps</span>
+        <strong id="statApps">0</strong>
+      </div>
+      <div class="stat-card">
+        <span data-i18n="stat_downloads">Downloads</span>
+        <strong id="statDownloads">0</strong>
+      </div>
+      <div class="stat-card">
+        <span data-i18n="stat_featured">Featured</span>
+        <strong id="statFeatured">0</strong>
+      </div>
+      <div class="stat-card">
+        <span data-i18n="stat_favorites">Favorites</span>
+        <strong id="statFavorites">0</strong>
+      </div>
+    </section>
+
+    <div class="quick-filters" id="quickFilters"></div>
+
     <div class="controls">
-      <input id="q" type="search" placeholder="Cerca (es. matrix, web, servo)..." />
+      <input id="q" type="search" data-i18n-placeholder="search_ph" placeholder="Search (e.g. matrix, web, servo)..." />
       <select id="tag">
-        <option value="">Tutti i tag</option>
+        <option value="" data-i18n="all_tags">All tags</option>
       </select>
+      <select id="level">
+        <option value="" data-i18n="all_levels">All levels</option>
+        <option value="beginner" data-i18n="level_beginner">Beginner</option>
+        <option value="intermediate" data-i18n="level_intermediate">Intermediate</option>
+        <option value="advanced" data-i18n="level_advanced">Advanced</option>
+      </select>
+      <select id="sort">
+        <option value="new" data-i18n="sort_new">Newest</option>
+        <option value="trending" data-i18n="sort_trending">Trending</option>
+        <option value="downloads" data-i18n="sort_downloads">Most downloaded</option>
+        <option value="name" data-i18n="sort_name">Name A–Z</option>
+      </select>
+      <label class="featured-filter">
+        <input id="featuredOnly" type="checkbox" />
+        <span data-i18n="featured_only">Featured only</span>
+      </label>
+      <label class="featured-filter">
+        <input id="favoritesOnly" type="checkbox" />
+        <span data-i18n="favorites_only">Favorites only</span>
+      </label>
     </div>
   </header>
 
   <main class="wrap">
     <div class="section-head">
-      <h2 class="section-title">Apps disponibili</h2>
+      <h2 class="section-title" data-i18n="section_title">Available apps</h2>
       <div class="section-right">
         <span class="status-dot"></span>
-        <span class="tiny">Aggiornato di recente</span>
+        <span class="tiny" data-i18n="updated_recently">Recently updated</span>
       </div>
     </div>
 
+    <div id="resultCount" class="result-count tiny"></div>
     <div id="grid" class="grid"></div>
 
     <footer class="footer">
-      <p>Vuoi inviare un’app? Apri una Issue nel repo con descrizione + ZIP allegato.</p>
-      <p class="tiny">Arduino® è un marchio registrato. Questo sito è indipendente e non affiliato ad Arduino.</p>
+      <p data-i18n="footer_send_app">Want to submit an app? Open an Issue on the repo with description + ZIP attached.</p>
+      <p><a class="btn submit-app-cta" href="https://github.com/gerry-tech/gerry-uno-q-apps/issues/new" target="_blank" rel="noreferrer"><span data-i18n="submit_app_now">Send app now</span></a></p>
+      <p class="tiny" data-i18n="footer_disclaimer">Arduino® is a registered trademark. This website is independent and not affiliated with Arduino.</p>
     </footer>
   </main>
 
-  <script src="apps/apps.js?v=12"></script>
-  <script src="main.js?v=12"></script>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="apps/apps.js?v=121"></script>
+  <script src="main.js?v=121"></script>
 </body>
 </html>
