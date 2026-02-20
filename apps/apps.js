@@ -8,7 +8,8 @@ const APPS = [
     zip: "https://raw.githubusercontent.com/gerry-tech/gerry-uno-q-apps/main/apps/roulette-servo/Roulette.zip",
     preview: "apps/roulette-servo/preview.jpg",
     badge: "FEATURED",
-    demo: "https://www.youtube.com/watch?v=O9AB-pAx9fA"
+    demo: "https://www.youtube.com/watch?v=O9AB-pAx9fA",
+    downloads: 928,
   },
   {
     id: "display-a-7-segmenti",
@@ -18,7 +19,8 @@ const APPS = [
     requires: "UNO Q, 7-segment display, resistors",
     zip: "https://raw.githubusercontent.com/gerry-tech/gerry-uno-q-apps/main/apps/display-a-7-segmenti/Display%20a%207%20segmenti.zip",
     preview: "apps/display-a-7-segmenti/preview.jpeg",
-    badge: "FEATURED"
+    badge: "FEATURED",
+    downloads: 71,
   },
   {
     id: "stickman",
@@ -29,7 +31,8 @@ const APPS = [
     zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/stickman/MatrixAnimation.zip",
     preview: "apps/stickman/preview.png",
     badge: "FEATURED",
-    demo: "https://www.youtube.com/watch?v=jkG8Zr1GLo0"
+    demo: "https://www.youtube.com/watch?v=jkG8Zr1GLo0",
+    downloads: 462,
   },
   {
     id: "reaction-time-test",
@@ -40,7 +43,8 @@ const APPS = [
     zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/reaction-time-test/ReactionTimeTest.zip",
     preview: "apps/reaction-time-test/preview.png",
     badge: "FEATURED",
-    demo: "https://www.youtube.com/watch?v=7TkriRXS7Pw"
+    demo: "https://www.youtube.com/watch?v=7TkriRXS7Pw",
+    downloads: 213,
   },
   {
     id: "buzzer",
@@ -52,6 +56,8 @@ const APPS = [
     preview: "apps/buzzer/preview.png",
     badge: "TOP",
     new: true,
-    demo: "https://www.youtube.com/watch?v=7TkriRXS7Pw"
+    demo: "https://www.youtube.com/watch?v=7TkriRXS7Pw",
+    date:"2026/02/20",
+    downloads: 57,
   }
 ];
