@@ -1,10 +1,10 @@
 const APPS = [
   {
     id: "roulette-servo",
-    title: "Arduino Roulette con Servo",
-    desc: "Premi il pulsante, animazione LED suspense e il servo ruota in base al risultato.",
+    title: "Arduino Roulette with a Servo",
+    desc: "Press the button, suspenseful LED animation and the servo rotates according to the result.",
     tags: ["SERVO","LED","GAME"],
-    requires: "UNO Q, LED, Servo, Pulsante",
+    requires: "UNO Q, LED, Servo, Button",
     zip: "https://raw.githubusercontent.com/gerry-tech/gerry-uno-q-apps/main/apps/roulette-servo/Roulette.zip",
     preview: "apps/roulette-servo/preview.jpg",
     badge: "FEATURED",
@@ -12,35 +12,45 @@ const APPS = [
   },
   {
     id: "display-a-7-segmenti",
-    title: "Controllo via WEB di un Display a 7 segmenti",
-    desc: "Crea una pagina WEB dove comandiamo il display (UNO Q).",
+    title: "WEB control of a 7-segment display",
+    desc: "Create a WEB page where we control the display.",
     tags: ["WEB","DISPLAY","EASY"],
-    requires: "UNO Q, Display a 7 segmenti (opz) alimentazione esterna",
+    requires: "UNO Q, 7-segment display, resistors",
     zip: "https://raw.githubusercontent.com/gerry-tech/gerry-uno-q-apps/main/apps/display-a-7-segmenti/Display%20a%207%20segmenti.zip",
     preview: "apps/display-a-7-segmenti/preview.jpeg",
     badge: "FEATURED"
   },
   {
     id: "stickman",
-    title: "Animazione di uno Stickman nella LED Matrix",
-    desc: "Strutta dei Frame per creare un'Animazione",
+    title: "Animating a Stickman in the LED Matrix",
+    desc: "Frame Structure to Create an Animation",
     tags: ["MATRIX","LED","EASY"],
     requires: "UNO Q, Cavo USB-C",
     zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/stickman/MatrixAnimation.zip",
     preview: "apps/stickman/preview.png",
     badge: "FEATURED",
-    new: true,
     demo: "https://www.youtube.com/watch?v=jkG8Zr1GLo0"
   },
   {
     id: "reaction-time-test",
-    title: "Test dei Tempi di Reazione",
-    desc: "Crea una Pagina WEB dove puoi iniziare la prova e scrive dopo quanto tempo reagisci.",
+    title: "Reaction Time Test",
+    desc: "Create a WEB page where you can start the test and write how long it takes for you to react.",
     tags: ["WEB","LED","GAME"],
     requires: "UNO Q, Resistori, LED, Fotoresistore",
     zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/reaction-time-test/ReactionTimeTest.zip",
     preview: "apps/reaction-time-test/preview.png",
     badge: "FEATURED",
+    demo: "https://www.youtube.com/watch?v=7TkriRXS7Pw"
+  },
+  {
+    id: "buzzer",
+    title: "Melody via WEB page",
+    desc: "Create a WEB page where you can choose from a few selected melodies.",
+    tags: ["WEB","BUZZER","MUSIC"],
+    requires: "UNO Q, Cables, Buzzer",
+    zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/reaction-time-test/ReactionTimeTest.zip",
+    preview: "apps/reaction-time-test/preview.png",
+    badge: "TOP",
     new: true,
     demo: "https://www.youtube.com/watch?v=7TkriRXS7Pw"
   }
