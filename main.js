@@ -125,9 +125,9 @@ const I18N = {
 };
 
 const LATEST_VIDEO = {
-  title: "WEB Controlled Buzzer",
-  url: "https://www.youtube.com/watch?v=hVKk1X4WMYU",
-  date: "2026-02-20",
+  title: "RGB LED Controlled by 3 Potentiometers",
+  url: "https://www.youtube.com/watch?v=RBAsdje4Yrw",
+  date: "2026-02-22",
   showForDays: 7
 };
 
