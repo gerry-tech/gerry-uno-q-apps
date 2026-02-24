@@ -65,7 +65,11 @@ const I18N = {
     quick_matrix: "Matrix",
     quick_new: "New",
     submit_app: "Submit your app",
-    submit_app_now: "Send app now"
+    submit_app_now: "Send app now",
+    clear_filters: "Reset filters",
+    open_app_page: "Open page",
+    latest_video_fallback: "Latest upload from channel",
+    tap_to_open: "Open details"
   },
   it: {
     kicker: "Arduino UNO Q • Hub Community",
@@ -120,15 +124,21 @@ const I18N = {
     quick_matrix: "Matrix",
     quick_new: "Nuove",
     submit_app: "Invia la tua app",
-    submit_app_now: "Invia app ora"
+    submit_app_now: "Invia app ora",
+    clear_filters: "Reset filtri",
+    open_app_page: "Apri pagina",
+    latest_video_fallback: "Ultimo upload del canale",
+    tap_to_open: "Apri dettagli"
   }
 };
 
-const LATEST_VIDEO = {
-  title: "RGB LED Controlled by 3 Potentiometers",
-  url: "https://www.youtube.com/watch?v=RBAsdje4Yrw",
-  date: "2026-02-22",
-  showForDays: 7
+const VIDEO_CHANNEL_ID = "UCjXdbreXXKrvXyU1SvKOJqw";
+
+const LATEST_VIDEO_FALLBACK = {
+  title: "MatrixAnimation",
+  url: "https://www.youtube.com/watch?v=jkG8Zr1GLo0",
+  date: "2026-02-14",
+  showForDays: 14
 };
 
 const QUICK_FILTERS = [
@@ -189,16 +199,111 @@ function applyI18nText() {
   itBtn.classList.toggle("active", state.lang === "it");
 }
 
-function setupVideoPing() {
+
+async function fetchWithTimeout(url, timeoutMs = 2600) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { cache: "no-store", signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function fetchLatestVideo() {
+  const uploadsPlaylist = `UU${VIDEO_CHANNEL_ID.slice(2)}`;
+
+  async function pickLatestLongVideoFromApi() {
+    const listUrl = `https://yt.lemnoslife.com/noKey/playlistItems?part=snippet&playlistId=${uploadsPlaylist}&maxResults=10`;
+    const listRes = await fetchWithTimeout(listUrl);
+    if (!listRes.ok) throw new Error("playlist fetch failed");
+    const listData = await listRes.json();
+    const items = (listData?.items || []).map((it) => ({
+      title: it?.snippet?.title || "",
+      videoId: it?.snippet?.resourceId?.videoId || "",
+      publishedRaw: it?.snippet?.publishedAt || ""
+    })).filter((v) => v.title && v.videoId && v.publishedRaw);
+
+    if (!items.length) throw new Error("no upload entries");
+
+    for (const item of items) {
+      const videoRes = await fetchWithTimeout(`https://yt.lemnoslife.com/noKey/videos?part=contentDetails,snippet&id=${item.videoId}`);
+      if (!videoRes.ok) continue;
+      const videoData = await videoRes.json();
+      const iso = videoData?.items?.[0]?.contentDetails?.duration || "";
+      const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+      const durationSeconds = match ? (Number(match[1] || 0) * 3600) + (Number(match[2] || 0) * 60) + Number(match[3] || 0) : 0;
+      if (durationSeconds >= 180) {
+        return {
+          title: item.title,
+          url: `https://www.youtube.com/watch?v=${item.videoId}`,
+          date: item.publishedRaw.slice(0, 10),
+          showForDays: 14
+        };
+      }
+    }
+
+    const newest = items[0];
+    return {
+      title: newest.title,
+      url: `https://www.youtube.com/watch?v=${newest.videoId}`,
+      date: newest.publishedRaw.slice(0, 10),
+      showForDays: 14
+    };
+  }
+
+  try {
+    return await pickLatestLongVideoFromApi();
+  } catch {
+    // fallback to RSS-based proxies
+  }
+
+  const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${VIDEO_CHANNEL_ID}`;
+  const sources = [
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(feedUrl)}`,
+    `https://r.jina.ai/http://www.youtube.com/feeds/videos.xml?channel_id=${VIDEO_CHANNEL_ID}`
+  ];
+
+  for (const url of sources) {
+    try {
+      const response = await fetchWithTimeout(url);
+      if (!response.ok) continue;
+      const xml = await response.text();
+      const parsed = new DOMParser().parseFromString(xml, "text/xml");
+      const entry = parsed.querySelector("entry");
+      if (!entry) continue;
+
+      const title = entry.querySelector("title")?.textContent?.trim();
+      const videoId = entry.querySelector("yt\:videoId, videoId")?.textContent?.trim();
+      const publishedRaw = entry.querySelector("published")?.textContent?.trim();
+      const linkHref = entry.querySelector("link")?.getAttribute("href")?.trim();
+      const finalUrl = videoId ? `https://www.youtube.com/watch?v=${videoId}` : linkHref;
+      if (!title || !finalUrl || !publishedRaw) continue;
+
+      return {
+        title,
+        url: finalUrl,
+        date: publishedRaw.slice(0, 10),
+        showForDays: 14
+      };
+    } catch {
+      // try next source
+    }
+  }
+
+  return LATEST_VIDEO_FALLBACK;
+}
+
+function setupVideoPing(videoData) {
   const box = document.getElementById("videoPing");
-  if (!box || !LATEST_VIDEO?.url || !LATEST_VIDEO?.date) return;
+  if (!box || !videoData?.url || !videoData?.date) return;
 
   const today = new Date();
-  const videoDate = new Date(`${LATEST_VIDEO.date}T00:00:00`);
+  const videoDate = new Date(`${videoData.date}T00:00:00`);
   if (Number.isNaN(videoDate.getTime())) return;
 
   const diffDays = Math.floor((today - videoDate) / (1000 * 60 * 60 * 24));
-  const showFor = Number(LATEST_VIDEO.showForDays ?? 3);
+  const showFor = Number(videoData.showForDays ?? 14);
   if (diffDays < 0 || diffDays > showFor) return;
 
   box.innerHTML = `
@@ -206,10 +311,10 @@ function setupVideoPing() {
       <div class="pulse">${tr("new_video")}</div>
       <div class="tiny">${diffDays} ${tr("days_ago")}</div>
     </div>
-    <p class="video-title">${escapeHtml(LATEST_VIDEO.title)}</p>
+    <p class="video-title">${escapeHtml(videoData.title)}</p>
     <div class="video-actions">
-      <a class="btn primary" href="${LATEST_VIDEO.url}" target="_blank" rel="noreferrer">${tr("watch_now")}</a>
-      <a class="btn" href="https://www.youtube.com/channel/UCjXdbreXXKrvXyU1SvKOJqw" target="_blank" rel="noreferrer">${tr("channel")}</a>
+      <a class="btn primary" href="${videoData.url}" target="_blank" rel="noreferrer">${tr("watch_now")}</a>
+      <a class="btn" href="https://www.youtube.com/channel/${VIDEO_CHANNEL_ID}" target="_blank" rel="noreferrer">${tr("channel")}</a>
     </div>
   `;
   box.hidden = false;
@@ -243,7 +348,7 @@ function render(apps) {
     const isFav = state.favorites.has(a.id);
     const el = document.createElement("article");
     el.className = "card";
-    el.dataset.zip = a.zip || "";
+    el.dataset.appId = a.id || "";
 
     const badge = a.badge ? `<div class="badge">${escapeHtml(a.badge)}</div>` : "";
     const tags = (a.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("");
@@ -263,11 +368,7 @@ function render(apps) {
         <div class="tags">${tags}</div>
         ${req ? `<p class="meta">${req}</p>` : ""}
         <div class="meta-row tiny">${(a.date || "").replaceAll("-", "/")} · ${Number(a.downloads || 0).toLocaleString(state.lang === "it" ? "it-IT" : "en-US")}</div>
-        <div class="btns">
-          ${a.zip ? `<a class="btn primary" href="${escapeHtml(a.zip)}" target="_blank" rel="noreferrer">${tr("download_zip")}</a>` : ""}
-          ${a.demo ? `<a class="btn" href="${escapeHtml(a.demo)}" target="_blank" rel="noreferrer">${tr("demo")}</a>` : ""}
-          <button class="btn copy-btn" data-action="copy" data-id="${escapeHtml(a.id)}">${tr("copy_link")}</button>
-        </div>
+        <p class="tiny card-cta">${tr("tap_to_open")}</p>
       </div>
     `;
 
@@ -336,6 +437,13 @@ function setupFilters(allApps) {
     tag.value = current;
   }
 
+  function updateSelectState() {
+    [tag, level, sort].forEach((select) => {
+      const hasValue = Boolean(select.value);
+      select.dataset.selected = hasValue ? "true" : "false";
+    });
+  }
+
   function apply() {
     const query = q.value.trim().toLowerCase();
     const t = tag.value;
@@ -351,10 +459,12 @@ function setupFilters(allApps) {
       return okQ && okT && okL && okF && okFav;
     });
 
+    updateSelectState();
     render(sortApps(filtered, sort.value));
   }
 
   buildTagOptions();
+  updateSelectState();
   [q, tag, level, sort, featuredOnly, favoritesOnly].forEach((node) => {
     node.addEventListener(node === q ? "input" : "change", apply);
   });
@@ -402,29 +512,27 @@ function setupCardActions(apps, refresh) {
         return;
       }
 
-      const url = appUrlForId(id);
-      if (action === "copy" || action === "share") {
+      if (action === "share") {
+        const url = appUrlForId(id);
         try {
-          if (navigator.share && action === "share") {
-            await navigator.share({ title: app.title, url });
-          } else {
+          if (navigator.share) await navigator.share({ title: app.title, url });
+          else {
             await navigator.clipboard.writeText(url);
             showToast(tr("copied"));
           }
         } catch {
-          // No-op: user cancelled share dialog or clipboard blocked
+          // share canceled or clipboard blocked
         }
+        return;
       }
-      return;
     }
 
-    if (e.target.closest("a")) return;
+    if (e.target.closest("a") || e.target.closest("button")) return;
     const card = e.target.closest(".card");
     if (!card) return;
-
-    const zip = card.dataset.zip;
-    if (!zip) return;
-    window.open(new URL(zip, window.location.href).href, "_blank", "noopener");
+    const id = card.dataset.appId;
+    if (!id) return;
+    window.location.href = `app.html?id=${encodeURIComponent(id)}`;
   });
 }
 
@@ -439,6 +547,18 @@ function focusHashApp(apps) {
   q.value = app.title;
 }
 
+function setupQolButtons(applyFilters) {
+  const clearBtn = document.getElementById("clearFilters");
+  if (!clearBtn) return;
+  clearBtn.addEventListener("click", () => {
+    document.getElementById("q").value = "";
+    document.getElementById("featuredOnly").checked = false;
+    document.getElementById("favoritesOnly").checked = false;
+    resetQuickFilters();
+    applyFilters();
+  });
+}
+
 function init() {
   if (typeof APPS === "undefined") {
     console.error("APPS is undefined: check apps/apps.js import path.");
@@ -447,9 +567,11 @@ function init() {
 
   state.totalApps = APPS.length;
   const filters = setupFilters(APPS);
+  let currentVideoData = LATEST_VIDEO_FALLBACK;
+
   const refresh = () => {
     applyI18nText();
-    setupVideoPing();
+    setupVideoPing(currentVideoData);
     filters.buildTagOptions();
     filters.apply();
     updateStats(APPS);
@@ -457,10 +579,20 @@ function init() {
   };
 
   setupLanguage(refresh);
+  setupQolButtons(filters.apply);
   setupCardActions(APPS, filters.apply);
 
   focusHashApp(APPS);
   refresh();
+
+  fetchLatestVideo().then((videoData) => {
+    if (videoData?.url) {
+      currentVideoData = videoData;
+      setupVideoPing(currentVideoData);
+    }
+  }).catch(() => {
+    // keep fallback video data
+  });
 }
 
 init();
