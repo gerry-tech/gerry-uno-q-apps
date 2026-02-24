@@ -826,7 +826,7 @@ void setup() {
 void loop() {
   updatePlayer();
 }`,
-    codePreviewCpp:
+    codePreviewPy:
       `from arduino.app_utils import Bridge
 from arduino.app_bricks.streamlit_ui import st
 
