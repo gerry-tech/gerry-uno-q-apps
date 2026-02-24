@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>UNO Q APPS STORE | Gerry&Tech FREE Arduino UNO Q Apps Download</title>
+  <title>UNO Q APPS STORE</title>
 
   <meta name="description" content="Professional international app store for Arduino UNO Q projects. Discover, filter, favorite, and download ready-to-import ZIP apps from the community." />
 
-  <link rel="stylesheet" href="style.css?v=121" />
+  <link rel="stylesheet" href="style.css?v=137" />
   <link rel="icon" href="data:,">
 </head>
 
 <body>
-  <div class="site-version">v1.2</div>
+  <div class="site-version">v1.3</div>
 
   <div class="lang-toggle" role="group" aria-label="Language">
     <button id="langEN" class="lang-btn" type="button" aria-pressed="false">EN</button>
@@ -20,6 +20,7 @@
   </div>
 
   <div class="fx fx-pcb" aria-hidden="true"></div>
+  <div class="fx fx-stars" aria-hidden="true"></div>
   <div class="fx fx-scan" aria-hidden="true"></div>
   <div class="fx fx-noise" aria-hidden="true"></div>
 
@@ -72,53 +73,61 @@
       </div>
     </section>
 
-    <section class="quick-stats" aria-live="polite">
-      <div class="stat-card">
-        <span data-i18n="stat_apps">Apps</span>
-        <strong id="statApps">0</strong>
+    <section class="command-center" aria-label="App controls">
+      <div class="controls-panel">
+        <div class="controls-top">
+          <input id="q" type="search" data-i18n-placeholder="search_ph" placeholder="Search (e.g. matrix, web, servo)..." />
+          <button id="clearFilters" class="btn ghost" type="button" data-i18n="clear_filters">Reset filters</button>
+        </div>
+
+        <div class="controls-grid">
+          <select id="tag">
+            <option value="" data-i18n="all_tags">All tags</option>
+          </select>
+          <select id="level">
+            <option value="" data-i18n="all_levels">All levels</option>
+            <option value="beginner" data-i18n="level_beginner">Beginner</option>
+            <option value="intermediate" data-i18n="level_intermediate">Intermediate</option>
+            <option value="advanced" data-i18n="level_advanced">Advanced</option>
+          </select>
+          <select id="sort">
+            <option value="new" data-i18n="sort_new">Newest</option>
+            <option value="trending" data-i18n="sort_trending">Trending</option>
+            <option value="downloads" data-i18n="sort_downloads">Most downloaded</option>
+            <option value="name" data-i18n="sort_name">Name A–Z</option>
+          </select>
+          <label class="featured-filter">
+            <input id="featuredOnly" type="checkbox" />
+            <span data-i18n="featured_only">Featured only</span>
+          </label>
+          <label class="featured-filter">
+            <input id="favoritesOnly" type="checkbox" />
+            <span data-i18n="favorites_only">Favorites only</span>
+          </label>
+        </div>
+
+        <div class="quick-filters" id="quickFilters"></div>
       </div>
-      <div class="stat-card">
-        <span data-i18n="stat_downloads">Downloads</span>
-        <strong id="statDownloads">0</strong>
-      </div>
-      <div class="stat-card">
-        <span data-i18n="stat_featured">Featured</span>
-        <strong id="statFeatured">0</strong>
-      </div>
-      <div class="stat-card">
-        <span data-i18n="stat_favorites">Favorites</span>
-        <strong id="statFavorites">0</strong>
-      </div>
+
+      <section class="quick-stats" aria-live="polite">
+        <div class="stat-card">
+          <span data-i18n="stat_apps">Apps</span>
+          <strong id="statApps">0</strong>
+        </div>
+        <div class="stat-card">
+          <span data-i18n="stat_downloads">Downloads</span>
+          <strong id="statDownloads">0</strong>
+        </div>
+        <div class="stat-card">
+          <span data-i18n="stat_featured">Featured</span>
+          <strong id="statFeatured">0</strong>
+        </div>
+        <div class="stat-card">
+          <span data-i18n="stat_favorites">Favorites</span>
+          <strong id="statFavorites">0</strong>
+        </div>
+      </section>
     </section>
-
-    <div class="quick-filters" id="quickFilters"></div>
-
-    <div class="controls">
-      <input id="q" type="search" data-i18n-placeholder="search_ph" placeholder="Search (e.g. matrix, web, servo)..." />
-      <select id="tag">
-        <option value="" data-i18n="all_tags">All tags</option>
-      </select>
-      <select id="level">
-        <option value="" data-i18n="all_levels">All levels</option>
-        <option value="beginner" data-i18n="level_beginner">Beginner</option>
-        <option value="intermediate" data-i18n="level_intermediate">Intermediate</option>
-        <option value="advanced" data-i18n="level_advanced">Advanced</option>
-      </select>
-      <select id="sort">
-        <option value="new" data-i18n="sort_new">Newest</option>
-        <option value="trending" data-i18n="sort_trending">Trending</option>
-        <option value="downloads" data-i18n="sort_downloads">Most downloaded</option>
-        <option value="name" data-i18n="sort_name">Name A–Z</option>
-      </select>
-      <label class="featured-filter">
-        <input id="featuredOnly" type="checkbox" />
-        <span data-i18n="featured_only">Featured only</span>
-      </label>
-      <label class="featured-filter">
-        <input id="favoritesOnly" type="checkbox" />
-        <span data-i18n="favorites_only">Favorites only</span>
-      </label>
-    </div>
   </header>
 
   <main class="wrap">
@@ -142,7 +151,7 @@
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script src="apps/apps.js?v=121"></script>
-  <script src="main.js?v=121"></script>
+  <script src="apps/apps.js?v=137"></script>
+  <script src="main.js?v=137"></script>
 </body>
 </html>
