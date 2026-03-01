@@ -948,6 +948,8 @@ App.run(user_loop=loop) `,
     estTime: "30 min",
     complexity: "Medium-Hard",
     featured: true,
+    new: true,
+    date: "2026/03/01",
 
     codePreviewCpp:
       `#include <Arduino_RouterBridge.h>
