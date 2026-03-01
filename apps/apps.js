@@ -933,5 +933,115 @@ def loop():
 
 # See: https://docs.arduino.cc/software/app-lab/tutorials/getting-started/#app-run
 App.run(user_loop=loop) `,
+  },
+  {
+    id: "allarme-incendio",
+    title: "Fire Alarm",
+    desc: "When the heat around the thermo resistor increases, an alarm starts",
+    tags: ["THERMO","LED","USEFUL"],
+    requires: "UNO Q, LED-RGB, Buzzer, Resistors, ThermoResistor",
+    zip: "https://raw.githubusercontent.com/gerry-tech/gerry-uno-q-apps/main/apps/roulette-servo/Roulette.zip",
+    preview: "apps/allarme-incendio/preview.png",
+    badge: "CRAZY",
+    downloads: 24,
+    level: "advanced",
+    estTime: "30 min",
+    complexity: "Medium-Hard",
+    featured: true,
+
+    codePreviewCpp:
+      `#include <Arduino_RouterBridge.h>
+
+const int RED = 3;
+const int GREEN = 4;
+const int BLUE = 5;
+const int BUZZER = 8;
+const int TEMP_PIN = A0;
+
+int sogliaWarning = 35;
+int sogliaAllarme = 45;
+
+int tempRaw() {
+  return analogRead(TEMP_PIN);
+}
+
+float tempC_guess() {
+  float v = tempRaw() * (5.0f / 1023.0f);
+  return (v - 0.5f) * 100.0f;
+}
+
+float temperatura() { return tempC_guess(); }
+int temperatura_raw() { return tempRaw(); }
+
+void setColor(int r, int g, int b) {
+  digitalWrite(RED, r);
+  digitalWrite(GREEN, g);
+  digitalWrite(BLUE, b);
+}
+
+void setup() {
+  pinMode(RED, OUTPUT);
+  pinMode(GREEN, OUTPUT);
+  pinMode(BLUE, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+
+  Bridge.begin();
+  Bridge.provide("temperatura", temperatura);
+  Bridge.provide("temperatura_raw", temperatura_raw);
+}
+
+void loop() {
+  Bridge.update();
+
+  static unsigned long lastLogic = 0;
+  static bool buzOn = false;
+  static unsigned long lastBeep = 0;
+
+  unsigned long now = millis();
+  
+  if (now - lastLogic >= 200) {
+    lastLogic = now;
+
+    float t = tempC_guess();
+
+    if (t < sogliaWarning) {
+      setColor(LOW, HIGH, LOW);
+      noTone(BUZZER);
+      buzOn = false;
+    }
+    else if (t < sogliaAllarme) {
+      setColor(HIGH, HIGH, LOW);
+      noTone(BUZZER);
+      buzOn = false;
+    }
+    else {
+      setColor(HIGH, LOW, LOW);
+    }
   }
+  
+  float t = tempC_guess();
+  if (t >= sogliaAllarme) {
+    if (now - lastBeep >= 250) {   
+      lastBeep = now;
+      buzOn = !buzOn;
+      if (buzOn) tone(BUZZER, 1000);
+      else noTone(BUZZER);
+    }
+  }
+}`,
+    codePreviewPy:
+      ` import time
+from arduino.app_utils import App, Bridge
+
+def loop():
+    try:
+        t = Bridge.call("temperatura", timeout=2)
+        raw = Bridge.call("temperatura_raw", timeout=2)
+        print("T =", t, " | RAW =", raw)
+    except TimeoutError:
+        print("⚠️ timeout (ritento...)")
+    time.sleep(0.5)
+
+App.run(user_loop=loop)`
+  },
 ];
