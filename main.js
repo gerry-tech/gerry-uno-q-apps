@@ -136,7 +136,7 @@ const VIDEO_CHANNEL_ID = "UCjXdbreXXKrvXyU1SvKOJqw";
 
 const LATEST_VIDEO_FALLBACK = {
   title: "MatrixAnimation",
-  url: "https://www.youtube.com/watch?v=jkG8Zr1GLo0",
+  url: "https://www.youtube.com/watch?v=f91Vk2e5lR0",
   date: "2026-02-14",
   showForDays: 14
 };
