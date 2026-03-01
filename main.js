@@ -135,9 +135,9 @@ const I18N = {
 const VIDEO_CHANNEL_ID = "UCjXdbreXXKrvXyU1SvKOJqw";
 
 const LATEST_VIDEO_FALLBACK = {
-  title: "MatrixAnimation",
+  title: "Fire Allarm",
   url: "https://www.youtube.com/watch?v=f91Vk2e5lR0",
-  date: "2026-02-14",
+  date: "2026-03-01",
   showForDays: 14
 };
 
