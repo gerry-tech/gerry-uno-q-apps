@@ -949,6 +949,7 @@ App.run(user_loop=loop) `,
     complexity: "Medium-Hard",
     featured: true,
     new: true,
+    demo: "https://www.youtube.com/watch?v=f91Vk2e5lR0",
     date: "2026/03/01",
 
     codePreviewCpp:
