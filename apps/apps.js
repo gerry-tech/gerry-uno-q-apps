@@ -873,7 +873,6 @@ if st.button("STOP (ferma la canzone)"):
     zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/led-rgb/LED%20RGB.zip",
     preview: "apps/led-rgb/preview.png",
     badge: "COOL",
-    new: true,
     date:"2026/02/22",
     downloads: 161,
     level: "intermediate",
@@ -1061,7 +1060,7 @@ App.run(user_loop=loop)`
     complexity: "Medium",
     featured: true,
     new: true,
-    demo: "https://youtu.be/0xsQ3LZtt_U",
+    demo: "https://youtu.be/f5s2xldslpc",
     date: "2026/03/04",
     zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/serratura/Serratura.zip",
     codePreviewCpp:
