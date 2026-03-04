@@ -948,7 +948,6 @@ App.run(user_loop=loop) `,
     estTime: "30 min",
     complexity: "Medium-Hard",
     featured: true,
-    new: true,
     demo: "https://www.youtube.com/watch?v=f91Vk2e5lR0",
     date: "2026/03/01",
 
@@ -1047,4 +1046,112 @@ def loop():
 
 App.run(user_loop=loop)`
   },
+  {
+    id: "serratura",
+    title: "Lock With PassWord",
+    desc: "Create your password and when you press the buttons, if the sequence of pressing them is equal to the password, start a sound and light up a led",
+    tags: ["PASSWORD","LED","USEFUL"],
+    requires: "UNO Q, LEDS, Buzzer, Resistors, Buttons",
+    zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/allarme-incendio/Allarme%20antincendio.zip",
+    preview: "apps/serratura/preview.png",
+    badge: "CRAZY",
+    downloads: 71,
+    level: "intermedie",
+    estTime: "20 min",
+    complexity: "Medium",
+    featured: true,
+    new: true,
+    demo: "https://youtu.be/0xsQ3LZtt_U",
+    date: "2026/03/04",
+    zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/serratura/Serratura.zip",
+    codePreviewCpp:
+      ` int ledVerde = 9;
+int ledRosso = 10;
+int buzzer = 8;
+
+int password = 4213;   // Change this number to change the order of the inputs (change password)
+int input = 0;
+
+void setup() {
+
+  pinMode(btn1, INPUT_PULLUP);
+  pinMode(btn2, INPUT_PULLUP);
+  pinMode(btn3, INPUT_PULLUP);
+  pinMode(btn4, INPUT_PULLUP);
+
+  pinMode(ledVerde, OUTPUT);
+  pinMode(ledRosso, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+}
+
+void loop() {
+
+  if(digitalRead(btn1) == LOW){
+    tone(buzzer, 1000, 100);  
+    input = input * 10 + 1;
+    delay(300);
+  }
+
+  if(digitalRead(btn2) == LOW){
+    tone(buzzer, 1000, 100);
+    input = input * 10 + 2;
+    delay(300);
+  }
+
+  if(digitalRead(btn3) == LOW){
+    tone(buzzer, 1000, 100);
+    input = input * 10 + 3;
+    delay(300);
+  }
+
+  if(digitalRead(btn4) == LOW){
+    tone(buzzer, 1000, 100);
+    input = input * 10 + 4;
+    delay(300);
+  }
+
+  if(input > 999){   
+
+    if(input == password){
+
+      digitalWrite(ledVerde, HIGH);
+      tone(buzzer, 1500);
+      delay(3000);   
+
+      digitalWrite(ledVerde, LOW);
+      noTone(buzzer);
+
+    }else{
+
+      digitalWrite(ledRosso, HIGH);
+      tone(buzzer, 200);
+      delay(3000);   
+
+      digitalWrite(ledRosso, LOW);
+      noTone(buzzer);
+    }
+
+    input = 0;
+  }
+
+}
+`,
+    codePreviewPy:
+      ` import time
+
+from arduino.app_utils import App
+
+print("Hello world!")
+
+
+def loop():
+    """This function is called repeatedly by the App framework."""
+    # You can replace this with any code you want your App to run repeatedly.
+    time.sleep(10)
+
+
+# See: https://docs.arduino.cc/software/app-lab/tutorials/getting-started/#app-run
+App.run(user_loop=loop)
+`,
+  }
 ];
