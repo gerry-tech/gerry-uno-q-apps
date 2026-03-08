@@ -1152,5 +1152,115 @@ def loop():
 # See: https://docs.arduino.cc/software/app-lab/tutorials/getting-started/#app-run
 App.run(user_loop=loop)
 `,
+  },
+  {
+    id: "ultrasonic",
+    title: "Detect objects with UltraSonic Sensor",
+    desc: "It uses an Ultrasonic sensor mounted on a servomotor to detect the distance of objects in front of it.",
+    tags: ["ULTRASONIC","SERVO","USEFULL"],
+    requires: "UNO Q, Servo, UltrSonic Sensor, Cables",
+    zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/allarme-incendio/Allarme%20antincendio.zip",
+    preview: "apps/ultrasonic/preview.png",
+    badge: "CRAZY",
+    downloads: 141,
+    level: "intermedie",
+    estTime: "25 min",
+    complexity: "Medium",
+    featured: true,
+    new: true,
+    date: "2026/03/08",
+    zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/ultrasonic/UltraSuoni.zip",
+    codePreviewCpp:
+      `#include <Arduino_RouterBridge.h>
+#include <Servo.h>
+
+Servo myservo;
+
+const int trigPin = 9;
+const int echoPin = 10;
+const int servoPin = 3;
+
+int grado = 0;
+int direzione = 1;  // 1 = avanti, -1 = indietro
+
+unsigned long lastServoMillis = 0;
+unsigned long lastUltraMillis = 0;
+
+void setup() {
+  Bridge.begin();
+  Monitor.begin(9600);
+
+  myservo.attach(servoPin);
+
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+}
+
+void loop() {
+  servo();
+  ultra();
+}
+
+void servo() {
+  if (millis() - lastServoMillis >= 50) {
+    lastServoMillis = millis();
+
+    myservo.write(grado);
+    grado += direzione;
+
+    if (grado >= 180) {
+      grado = 180;
+      direzione = -1;
+    }
+
+    if (grado <= 0) {
+      grado = 0;
+      direzione = 1;
+    }
+  }
+}
+
+void ultra() {
+  if (millis() - lastUltraMillis >= 200) {
+    lastUltraMillis = millis();
+
+    long durata;
+    float distanza;
+
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+
+    durata = pulseIn(echoPin, HIGH, 30000);
+
+    if (durata == 0) {
+      Monitor.println("Fuori portata o nessun segnale");
+    } else {
+      distanza = durata * 0.0343 / 2.0;
+
+      Monitor.print("Distanza: ");
+      Monitor.print(distanza);
+      Monitor.println(" cm");
+    }
+  }
+}`,
+    codePreviewPy:
+      `import time
+
+from arduino.app_utils import App
+
+print("Hello world!")
+
+
+def loop():
+    """This function is called repeatedly by the App framework."""
+    # You can replace this with any code you want your App to run repeatedly.
+    time.sleep(10)
+
+
+# See: https://docs.arduino.cc/software/app-lab/tutorials/getting-started/#app-run
+App.run(user_loop=loop)`,
   }
 ];
