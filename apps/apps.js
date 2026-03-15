@@ -1059,7 +1059,6 @@ App.run(user_loop=loop)`
     estTime: "20 min",
     complexity: "Medium",
     featured: true,
-    new: true,
     demo: "https://youtu.be/f5s2xldslpc",
     date: "2026/03/04",
     zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/serratura/Serratura.zip",
@@ -1167,7 +1166,6 @@ App.run(user_loop=loop)
     estTime: "25 min",
     complexity: "Medium",
     featured: true,
-    new: true,
     date: "2026/03/08",
     zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/ultrasonic/UltraSuoni.zip",
     codePreviewCpp:
@@ -1269,8 +1267,8 @@ App.run(user_loop=loop)`,
     desc: "Turn the potentiometer to swing the racket and hit the ball. Good luck!",
     tags: ["POTENTIOMETER","BUZZER","GAME","WEB"],
     requires: "UNO Q, LED, Buzzer, Potentiometer",
-    zip: "https://raw.githubusercontent.com/gerry-tech/gerry-uno-q-apps/main/apps/roulette-servo/Roulette.zip",
-    preview: "apps/roulette-servo/preview.jpg",
+    zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/pong/PONG.zip",
+    preview: "apps/pong/preview.png",
     badge: "CRAZY",
     demo: "https://www.youtube.com/watch?v=CTpVdmDBGTE",
     downloads: 564,
@@ -1279,5 +1277,415 @@ App.run(user_loop=loop)`,
     complexity: "Hard",
     featured: true,
     new: true,
+    date: "2026/03/15",
+    codePreviewCpp: `#include <Arduino_RouterBridge.h>
+
+const int led = 3;
+const int buzzer = 8;
+
+int valpot(){
+  return analogRead(A0);
+}
+
+void win(){
+  tone(buzzer, 1000);
+  digitalWrite(led, HIGH);
+}
+
+void off(){
+  noTone(buzzer);
+  digitalWrite(led, LOW);
+}
+
+void setup() {
+  // put your setup code here, to run once:
+  Bridge.begin();
+  pinMode(led, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+  Bridge.provide("valpot", valpot);
+  Bridge.provide("win", win);
+  Bridge.provide("off", off);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+} `,
+    codePreviewPy: `import os
+from arduino.app_utils import App, Bridge
+from arduino.app_bricks.web_ui import WebUI
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, "..", "web"))
+
+ui = WebUI(
+    addr="0.0.0.0",
+    port=7000,
+    ui_path_prefix="",
+    api_path_prefix="/api",
+    assets_dir_path=ASSETS_DIR,
+    use_tls=False,
+)
+
+
+def api_get_pot():
+    try:
+        value = int(Bridge.call("valpot"))
+        return {"value": value}
+    except Exception as e:
+        return {"value": 0, "error": str(e)}
+
+
+def api_reset_game():
+    try:
+        Bridge.call("off")
+        return {"ok": True}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+def api_player_win():
+    try:
+        Bridge.call("win")
+        return {"ok": True}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+ui.expose_api("GET", "/pot", api_get_pot)
+ui.expose_api("POST", "/reset", api_reset_game)
+ui.expose_api("POST", "/win", api_player_win)
+
+ui.start()
+
+print("Web UI locale:", ui.local_url)
+print("Web UI esterna:", ui.url)
+
+App.run()
+ `,
+    codePreviewJs: `const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+const playerScoreEl = document.getElementById("playerScore");
+const cpuScoreEl = document.getElementById("cpuScore");
+const resetBtn = document.getElementById("resetBtn");
+const statusText = document.getElementById("statusText");
+
+let playerScore = 0;
+let cpuScore = 0;
+let lastPotValue = 0;
+let gameStarted = false;
+let lastWinTrigger = 0;
+let lastPotReadOk = false;
+
+const WIN_TRIGGER_COOLDOWN_MS = 700;
+const paddleWidth = 12;
+const paddleHeight = 100;
+const ballSize = 14;
+
+const player = {
+  x: 20,
+  y: canvas.height / 2 - paddleHeight / 2,
+  width: paddleWidth,
+  height: paddleHeight
+};
+
+const cpu = {
+  x: canvas.width - 20 - paddleWidth,
+  y: canvas.height / 2 - paddleHeight / 2,
+  width: paddleWidth,
+  height: paddleHeight,
+  speed: 3.5
+};
+
+const ball = {
+  x: canvas.width / 2,
+  y: canvas.height / 2,
+  size: ballSize,
+  speedX: 5,
+  speedY: 3.2
+};
+
+function drawRect(x, y, w, h, color = "white") {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, w, h);
+}
+
+function drawBall() {
+  ctx.fillStyle = "#00e5ff";
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.size / 2, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawNet() {
+  for (let i = 0; i < canvas.height; i += 30) {
+    drawRect(canvas.width / 2 - 2, i, 4, 18, "white");
   }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawNet();
+  drawRect(player.x, player.y, player.width, player.height, "#00ff99");
+  drawRect(cpu.x, cpu.y, cpu.width, cpu.height, "#ff4444");
+  drawBall();
+}
+
+function updateStatus(text, isError = false) {
+  statusText.textContent = text;
+  statusText.style.color = isError ? "#ff6666" : "#9fffd0";
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function resetBall(direction = null) {
+  ball.x = canvas.width / 2;
+  ball.y = canvas.height / 2;
+
+  const dir = direction ?? (Math.random() > 0.5 ? 1 : -1);
+  ball.speedX = dir * (4.8 + Math.random() * 1.2);
+  ball.speedY = (Math.random() > 0.5 ? 1 : -1) * (2.5 + Math.random() * 2.2);
+}
+
+function bounceFromPaddle(paddle, isPlayer) {
+  const relativeIntersectY = (ball.y - (paddle.y + paddle.height / 2)) / (paddle.height / 2);
+  ball.speedY = relativeIntersectY * 5.5;
+
+  const speedBoost = 0.35;
+  const nextSpeedX = Math.abs(ball.speedX) + speedBoost;
+  ball.speedX = isPlayer ? nextSpeedX : -nextSpeedX;
+
+  ball.x = isPlayer
+    ? paddle.x + paddle.width + ball.size / 2
+    : paddle.x - ball.size / 2;
+}
+
+async function triggerWinEffect() {
+  const now = Date.now();
+  if (now - lastWinTrigger < WIN_TRIGGER_COOLDOWN_MS) return;
+  lastWinTrigger = now;
+
+  try {
+    await fetch("/api/win", { method: "POST" });
+  } catch (err) {
+    console.log("Errore chiamata win:", err);
+  }
+}
+
+async function turnOffEffects() {
+  try {
+    await fetch("/api/reset", { method: "POST" });
+  } catch (err) {
+    console.log("Errore reset API:", err);
+  }
+}
+
+function handleScore(side) {
+  if (side === "player") {
+    playerScore++;
+    playerScoreEl.textContent = playerScore;
+    triggerWinEffect();
+    resetBall(-1);
+    updateStatus("Punto giocatore!");
+  } else {
+    cpuScore++;
+    cpuScoreEl.textContent = cpuScore;
+    turnOffEffects();
+    resetBall(1);
+    updateStatus("Punto CPU");
+  }
+}
+
+function updateCpu() {
+  const cpuCenter = cpu.y + cpu.height / 2;
+  const target = ball.y;
+  const delta = target - cpuCenter;
+
+  if (Math.abs(delta) > cpu.speed) {
+    cpu.y += Math.sign(delta) * cpu.speed;
+  } else {
+    cpu.y += delta;
+  }
+
+  cpu.y = clamp(cpu.y, 0, canvas.height - cpu.height);
+}
+
+function update() {
+  ball.x += ball.speedX;
+  ball.y += ball.speedY;
+
+  if (ball.y - ball.size / 2 <= 0) {
+    ball.y = ball.size / 2;
+    ball.speedY *= -1;
+  }
+
+  if (ball.y + ball.size / 2 >= canvas.height) {
+    ball.y = canvas.height - ball.size / 2;
+    ball.speedY *= -1;
+  }
+
+  updateCpu();
+
+  if (
+    ball.x - ball.size / 2 <= player.x + player.width &&
+    ball.x > player.x &&
+    ball.y >= player.y &&
+    ball.y <= player.y + player.height
+  ) {
+    bounceFromPaddle(player, true);
+    turnOffEffects();
+  }
+
+  if (
+    ball.x + ball.size / 2 >= cpu.x &&
+    ball.x < cpu.x + cpu.width &&
+    ball.y >= cpu.y &&
+    ball.y <= cpu.y + cpu.height
+  ) {
+    bounceFromPaddle(cpu, false);
+  }
+
+  if (ball.x + ball.size < 0) {
+    handleScore("cpu");
+  }
+
+  if (ball.x - ball.size > canvas.width) {
+    handleScore("player");
+  }
+}
+
+async function readPotValue() {
+  try {
+    const res = await fetch("/api/pot", { cache: "no-store" });
+    const data = await res.json();
+    const rawValue = Number(data.value);
+
+    if (!Number.isFinite(rawValue)) {
+      throw new Error("Valore potenziometro non valido");
+    }
+
+    lastPotValue = clamp(rawValue, 0, 1023);
+    const mappedY = (lastPotValue / 1023) * (canvas.height - player.height);
+    player.y = clamp(mappedY, 0, canvas.height - player.height);
+
+    if (!lastPotReadOk) {
+      updateStatus("Potenziometro collegato");
+    }
+
+    lastPotReadOk = true;
+    gameStarted = true;
+  } catch (err) {
+    if (lastPotReadOk) {
+      updateStatus("Errore lettura potenziometro", true);
+    }
+    lastPotReadOk = false;
+    console.log("Errore lettura potenziometro:", err);
+  }
+}
+
+async function gameLoop() {
+  await readPotValue();
+  if (gameStarted) {
+    update();
+  }
+  draw();
+  requestAnimationFrame(gameLoop);
+}
+
+resetBtn.addEventListener("click", async () => {
+  playerScore = 0;
+  cpuScore = 0;
+  playerScoreEl.textContent = "0";
+  cpuScoreEl.textContent = "0";
+  resetBall();
+  await turnOffEffects();
+  updateStatus("Partita resettata");
+});
+
+resetBall();
+draw();
+gameLoop();
+ `,
+    codePreviewCss: `body {
+  margin: 0;
+  background: #081221;
+  font-family: Arial, sans-serif;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+canvas {
+  background: black;
+  border: 4px solid #00e5ff;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+}
+
+.score {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+p {
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 18px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.status {
+  margin-top: 12px;
+  font-size: 14px;
+  opacity: 0.95;
+}
+ `,
+    codePreviewHtml: `<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNO Q ARCADE</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>UNO Q ARCADE</h1>
+
+    <div class="score">
+      <span id="playerScore">0</span> : <span id="cpuScore">0</span>
+    </div>
+
+    <canvas id="gameCanvas" width="900" height="500"></canvas>
+
+    <p>Muovi la racchetta con il potenziometro</p>
+    <button id="resetBtn">Reset</button>
+    <div id="statusText" class="status">Connessione...</div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html> `,
+  },
 ];
