@@ -23,8 +23,13 @@ function slot(label, value) {
 }
 
 function renderCodePreview(app) {
-  const cpp = app.codePreviewCpp || "// C++ preview not available";
-  const py = app.codePreviewPy || "# Python preview not available";
+  const codeByLang = {
+    cpp: app.codePreviewCpp || "// C++ preview not available",
+    py: app.codePreviewPy || "# Python preview not available",
+    js: app.codePreviewJs || "// JavaScript preview not available",
+    css: app.codePreviewCss || "/* CSS preview not available */",
+    html: app.codePreviewHtml || "<!-- HTML preview not available -->"
+  };
 
   return `
     <section class="code-panel">
@@ -33,9 +38,12 @@ function renderCodePreview(app) {
         <div class="lang-switch">
           <button class="lang-code-btn active" data-code-lang="cpp" type="button">C++</button>
           <button class="lang-code-btn" data-code-lang="py" type="button">Python</button>
+          <button class="lang-code-btn" data-code-lang="js" type="button">JavaScript</button>
+          <button class="lang-code-btn" data-code-lang="css" type="button">CSS</button>
+          <button class="lang-code-btn" data-code-lang="html" type="button">HTML</button>
         </div>
       </div>
-      <pre><code id="codePreviewBox">${esc(cpp)}</code></pre>
+      <pre><code id="codePreviewBox">${esc(codeByLang.cpp)}</code></pre>
     </section>
   `;
 }
@@ -44,11 +52,18 @@ function wireCodeSwitch(app) {
   const codeBox = document.getElementById("codePreviewBox");
   if (!codeBox) return;
 
+  const codeByLang = {
+    cpp: app.codePreviewCpp || "// C++ preview not available",
+    py: app.codePreviewPy || "# Python preview not available",
+    js: app.codePreviewJs || "// JavaScript preview not available",
+    css: app.codePreviewCss || "/* CSS preview not available */",
+    html: app.codePreviewHtml || "<!-- HTML preview not available -->"
+  };
+
   document.querySelectorAll(".lang-code-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const lang = btn.dataset.codeLang;
-      const code = lang === "py" ? (app.codePreviewPy || "# Python preview not available") : (app.codePreviewCpp || "// C++ preview not available");
-      codeBox.textContent = code;
+      codeBox.textContent = codeByLang[lang] || codeByLang.cpp;
       document.querySelectorAll(".lang-code-btn").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
     });
