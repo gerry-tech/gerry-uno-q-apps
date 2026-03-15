@@ -1262,5 +1262,22 @@ def loop():
 
 # See: https://docs.arduino.cc/software/app-lab/tutorials/getting-started/#app-run
 App.run(user_loop=loop)`,
+  },
+  {
+    id: "pong",
+    title: "PONG Videogame recreated on an Arduino",
+    desc: "Turn the potentiometer to swing the racket and hit the ball. Good luck!",
+    tags: ["POTENTIOMETER","BUZZER","GAME","WEB"],
+    requires: "UNO Q, LED, Buzzer, Potentiometer",
+    zip: "https://raw.githubusercontent.com/gerry-tech/gerry-uno-q-apps/main/apps/roulette-servo/Roulette.zip",
+    preview: "apps/roulette-servo/preview.jpg",
+    badge: "CRAZY",
+    demo: "https://www.youtube.com/watch?v=CTpVdmDBGTE",
+    downloads: 564,
+    level: "advanced",
+    estTime: "40 min",
+    complexity: "Hard",
+    featured: true,
+    new: true,
   }
 ];
