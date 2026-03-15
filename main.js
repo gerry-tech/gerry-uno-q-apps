@@ -1,14 +1,6 @@
-function uniq(arr) {
-  return [...new Set(arr)].sort((a, b) => a.localeCompare(b));
-}
-
+function uniq(arr) { return [...new Set(arr)].sort((a, b) => a.localeCompare(b)); }
 function escapeHtml(s) {
-  return String(s ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  return String(s ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 }
 
 const I18N = {
@@ -16,13 +8,26 @@ const I18N = {
     kicker: "Arduino UNO Q • Community Hub",
     hero_title: "UNO Q APPS STORE",
     hero_sub: "A professional, international app catalog for Arduino UNO Q with curated ZIP projects and real community builds.",
-    join_discord: "Join Our Discord",
-    pill_zip: "Ready ZIPs",
-    pill_web: "Web UI",
-    pill_matrix: "Matrix",
-    pill_servo: "Servo",
+    theme_switch: "Switch theme",
     note_label: "Note:",
-    note_text: "Independent project, not affiliated with Arduino.",
+    official_note: "This website is an independent community project and is not affiliated with Arduino®.",
+    about_title: "About this project",
+    about_desc_1: "I build practical Arduino UNO Q resources: tutorials, community app collections, and real examples you can import and test fast.",
+    about_desc_2: "Goal: make electronics easier, more professional, and fun for beginner and advanced makers.",
+    send_app_now: "Send App",
+    boost_title: "Quick launch",
+    boost_sub: "Jump into what matters most",
+    join_discord: "Join Our Discord",
+    subscribe_channel: "Subscribe",
+    submit_app: "Submit your app",
+    guide_btn: "Guide",
+    live_now: "Live now:",
+    spotlight_title: "Today Spotlight",
+    spotlight_loading: "Loading top project...",
+    roadmap_title: "Direct roadmap",
+    roadmap_1: "Weekly featured build by community votes.",
+    roadmap_2: "Live stream coding sessions with project breakdown.",
+    roadmap_3: "Premium templates for dashboards and IoT UIs.",
     channel_desc: "Arduino UNO Q tutorials from beginner to pro, hands-on electronics, and community apps.",
     go_channel: "Go to channel",
     repo_github: "GitHub Repo",
@@ -31,6 +36,9 @@ const I18N = {
     stat_featured: "Featured",
     stat_favorites: "Favorites",
     search_ph: "Search (e.g. matrix, web, servo)...",
+    random_app: "Random app",
+    share_store: "Share store",
+    clear_filters: "Reset filters",
     all_tags: "All tags",
     all_levels: "All levels",
     level_beginner: "Beginner",
@@ -42,46 +50,54 @@ const I18N = {
     sort_name: "Name A–Z",
     featured_only: "Featured only",
     favorites_only: "Favorites only",
+    compact_mode: "Compact mode",
+    compare_title: "Compare tray",
+    clear_compare: "Clear",
     section_title: "Available apps",
-    updated_recently: "Recently updated",
-    footer_send_app: "Want to submit an app? Open an Issue on the repo with description + ZIP attached.",
-    footer_disclaimer: "Arduino® is a registered trademark. This website is independent and not affiliated with Arduino.",
+    result_count: "Showing {shown} of {total} apps",
     empty: "No apps found.",
     empty_hint: "Try removing filters or searching another keyword.",
     requires: "Components",
-    demo: "Demo",
-    download_zip: "Download ZIP",
-    copy_link: "Copy link",
-    copied: "Link copied to clipboard",
+    tap_to_open: "Open details",
+    copied: "Copied to clipboard",
+    random_redirect: "Opening random app...",
+    compare_added: "Added to compare",
+    compare_removed: "Removed from compare",
+    guide_title: "How UNO Q APPS STORE works",
+    close: "Close",
+    guide_step_1: "Use search and filters to discover projects fast.",
+    guide_step_2: "Open cards to read specs and switch code preview languages.",
+    guide_step_3: "Use compare tray, favorites and random for quick exploration.",
+    guide_step_4: "Join Discord and share your project to get featured.",
     new_video: "NEW VIDEO",
     watch_now: "Watch now",
     channel: "Channel",
-    days_ago: "days ago",
-    result_count: "Showing {shown} of {total} apps",
-    quick_all: "All",
-    quick_beginner: "Beginner",
-    quick_intermediate: "Intermediate",
-    quick_web: "Web",
-    quick_matrix: "Matrix",
-    quick_new: "New",
-    submit_app: "Submit your app",
-    submit_app_now: "Send app now",
-    clear_filters: "Reset filters",
-    open_app_page: "Open page",
-    latest_video_fallback: "Latest upload from channel",
-    tap_to_open: "Open details"
+    days_ago: "days ago"
   },
   it: {
     kicker: "Arduino UNO Q • Hub Community",
     hero_title: "UNO Q APPS STORE",
-    hero_sub: "Catalogo professionale e internazionale di app per Arduino UNO Q, con ZIP curati e progetti reali della community.",
-    join_discord: "Unisciti al nostro Discord",
-    pill_zip: "ZIP pronti",
-    pill_web: "Web UI",
-    pill_matrix: "Matrix",
-    pill_servo: "Servo",
+    hero_sub: "Catalogo professionale e internazionale di app per Arduino UNO Q con ZIP curati e progetti reali della community.",
+    theme_switch: "Cambia tema",
     note_label: "Nota:",
-    note_text: "Progetto indipendente, non affiliato ad Arduino.",
+    official_note: "Questo sito è un progetto community indipendente e non è affiliato ad Arduino®.",
+    about_title: "Chi sono e progetto",
+    about_desc_1: "Creo risorse pratiche per Arduino UNO Q: tutorial, raccolte app community ed esempi reali da importare subito.",
+    about_desc_2: "Obiettivo: rendere l'elettronica più facile, professionale e divertente per maker beginner e avanzati.",
+    send_app_now: "Invia App",
+    boost_title: "Avvio rapido",
+    boost_sub: "Vai subito sulle azioni principali",
+    join_discord: "Unisciti al nostro Discord",
+    subscribe_channel: "Iscriviti",
+    submit_app: "Invia la tua app",
+    guide_btn: "Guida",
+    live_now: "Live ora:",
+    spotlight_title: "Progetto del giorno",
+    spotlight_loading: "Caricamento progetto top...",
+    roadmap_title: "Roadmap diretta",
+    roadmap_1: "Build in evidenza settimanale scelta dalla community.",
+    roadmap_2: "Live coding con spiegazione completa del progetto.",
+    roadmap_3: "Template premium per dashboard e interfacce IoT.",
     channel_desc: "Tutorial Arduino UNO Q da beginner a pro, elettronica pratica e app community.",
     go_channel: "Vai al canale",
     repo_github: "Repo GitHub",
@@ -90,6 +106,9 @@ const I18N = {
     stat_featured: "In evidenza",
     stat_favorites: "Preferite",
     search_ph: "Cerca (es. matrix, web, servo)...",
+    random_app: "App casuale",
+    share_store: "Condividi store",
+    clear_filters: "Reset filtri",
     all_tags: "Tutti i tag",
     all_levels: "Tutti i livelli",
     level_beginner: "Principiante",
@@ -101,95 +120,72 @@ const I18N = {
     sort_name: "Nome A–Z",
     featured_only: "Solo in evidenza",
     favorites_only: "Solo preferite",
+    compact_mode: "Modalità compatta",
+    compare_title: "Area confronto",
+    clear_compare: "Pulisci",
     section_title: "App disponibili",
-    updated_recently: "Aggiornate di recente",
-    footer_send_app: "Vuoi pubblicare una app? Apri una Issue sul repo con descrizione + ZIP allegato.",
-    footer_disclaimer: "Arduino® è un marchio registrato. Questo sito è indipendente e non affiliato ad Arduino.",
+    result_count: "Visualizzate {shown} app su {total}",
     empty: "Nessuna app trovata.",
     empty_hint: "Prova a rimuovere alcuni filtri o cercare un termine diverso.",
     requires: "Componenti",
-    demo: "Demo",
-    download_zip: "Scarica ZIP",
-    copy_link: "Copia link",
-    copied: "Link copiato negli appunti",
+    tap_to_open: "Apri dettagli",
+    copied: "Copiato negli appunti",
+    random_redirect: "Apertura app casuale...",
+    compare_added: "Aggiunta al confronto",
+    compare_removed: "Rimossa dal confronto",
+    guide_title: "Come funziona UNO Q APPS STORE",
+    close: "Chiudi",
+    guide_step_1: "Usa ricerca e filtri per trovare rapidamente i progetti.",
+    guide_step_2: "Apri le card per leggere specifiche e cambiare linguaggio preview.",
+    guide_step_3: "Usa confronto, preferiti e random per esplorare velocemente.",
+    guide_step_4: "Unisciti a Discord e condividi il tuo progetto per andare in evidenza.",
     new_video: "NUOVO VIDEO",
     watch_now: "Guarda ora",
     channel: "Canale",
-    days_ago: "giorni fa",
-    result_count: "Visualizzate {shown} app su {total}",
-    quick_all: "Tutte",
-    quick_beginner: "Principiante",
-    quick_intermediate: "Intermedio",
-    quick_web: "Web",
-    quick_matrix: "Matrix",
-    quick_new: "Nuove",
-    submit_app: "Invia la tua app",
-    submit_app_now: "Invia app ora",
-    clear_filters: "Reset filtri",
-    open_app_page: "Apri pagina",
-    latest_video_fallback: "Ultimo upload del canale",
-    tap_to_open: "Apri dettagli"
+    days_ago: "giorni fa"
   }
 };
 
 const VIDEO_CHANNEL_ID = "UCjXdbreXXKrvXyU1SvKOJqw";
-
-const LATEST_VIDEO_FALLBACK = {
-  title: "Fire Allarm",
-  url: "https://www.youtube.com/watch?v=f91Vk2e5lR0",
-  date: "2026-03-01",
-  showForDays: 14
-};
-
+const LATEST_VIDEO_FALLBACK = { title: "MatrixAnimation", url: "https://www.youtube.com/watch?v=jkG8Zr1GLo0", date: "2026-02-14", showForDays: 14 };
 const QUICK_FILTERS = [
-  { id: "all", label: "quick_all", apply: () => resetQuickFilters() },
-  { id: "beginner", label: "quick_beginner", apply: () => document.getElementById("level").value = "beginner" },
-  { id: "intermediate", label: "quick_intermediate", apply: () => document.getElementById("level").value = "intermediate" },
-  { id: "web", label: "quick_web", apply: () => document.getElementById("tag").value = "web" },
-  { id: "matrix", label: "quick_matrix", apply: () => document.getElementById("tag").value = "matrix" },
-  { id: "new", label: "quick_new", apply: () => document.getElementById("sort").value = "new" }
+  { id: "all", label: { en: "All", it: "Tutte" }, apply: () => resetQuickFilters() },
+  { id: "beginner", label: { en: "Beginner", it: "Principiante" }, apply: () => document.getElementById("level").value = "beginner" },
+  { id: "web", label: { en: "Web", it: "Web" }, apply: () => document.getElementById("tag").value = "web" },
+  { id: "matrix", label: { en: "Matrix", it: "Matrix" }, apply: () => document.getElementById("tag").value = "matrix" },
+  { id: "new", label: { en: "New", it: "Nuove" }, apply: () => document.getElementById("sort").value = "new" }
 ];
 
 const state = {
   lang: localStorage.getItem("unoq_lang") || "en",
+  favorites: new Set(JSON.parse(localStorage.getItem("unoq_favorites") || "[]")),
+  compare: new Set(JSON.parse(localStorage.getItem("unoq_compare") || "[]")),
   totalApps: 0,
   shownApps: 0,
-  favorites: new Set(JSON.parse(localStorage.getItem("unoq_favorites") || "[]"))
+  video: LATEST_VIDEO_FALLBACK
 };
 
-function tr(key) {
-  return I18N[state.lang]?.[key] || I18N.en[key] || key;
-}
-
-function localizeValue(value) {
-  if (!value) return "";
-  if (typeof value === "string") return value;
-  return value[state.lang] || value.en || Object.values(value)[0] || "";
-}
-
-function saveFavorites() {
-  localStorage.setItem("unoq_favorites", JSON.stringify([...state.favorites]));
-}
+function tr(key) { return I18N[state.lang]?.[key] || I18N.en[key] || key; }
+function localizeValue(value) { if (!value) return ""; if (typeof value === "string") return value; return value[state.lang] || value.en || Object.values(value)[0] || ""; }
+function saveSet(key, set) { localStorage.setItem(key, JSON.stringify([...set])); }
 
 function showToast(message) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
   toast.classList.add("show");
   clearTimeout(showToast.timer);
-  showToast.timer = setTimeout(() => toast.classList.remove("show"), 1700);
+  showToast.timer = setTimeout(() => toast.classList.remove("show"), 1600);
 }
 
 function applyI18nText() {
   document.documentElement.lang = state.lang;
   document.title = tr("hero_title");
-
-  document.querySelectorAll("[data-i18n]").forEach((el) => {
-    el.textContent = tr(el.dataset.i18n);
-  });
-
-  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
-    el.setAttribute("placeholder", tr(el.dataset.i18nPlaceholder));
-  });
+  document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = tr(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => { el.setAttribute("placeholder", tr(el.dataset.i18nPlaceholder)); });
+  const guideList = document.getElementById("guideList");
+  if (guideList) {
+    guideList.innerHTML = ["guide_step_1", "guide_step_2", "guide_step_3", "guide_step_4"].map((k) => `<li>${escapeHtml(tr(k))}</li>`).join("");
+  }
 
   const enBtn = document.getElementById("langEN");
   const itBtn = document.getElementById("langIT");
@@ -197,188 +193,87 @@ function applyI18nText() {
   itBtn.setAttribute("aria-pressed", String(state.lang === "it"));
   enBtn.classList.toggle("active", state.lang === "en");
   itBtn.classList.toggle("active", state.lang === "it");
-}
 
-
-async function fetchWithTimeout(url, timeoutMs = 2600) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    return await fetch(url, { cache: "no-store", signal: controller.signal });
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-async function fetchLatestVideo() {
-  const uploadsPlaylist = `UU${VIDEO_CHANNEL_ID.slice(2)}`;
-
-  async function pickLatestLongVideoFromApi() {
-    const listUrl = `https://yt.lemnoslife.com/noKey/playlistItems?part=snippet&playlistId=${uploadsPlaylist}&maxResults=10`;
-    const listRes = await fetchWithTimeout(listUrl);
-    if (!listRes.ok) throw new Error("playlist fetch failed");
-    const listData = await listRes.json();
-    const items = (listData?.items || []).map((it) => ({
-      title: it?.snippet?.title || "",
-      videoId: it?.snippet?.resourceId?.videoId || "",
-      publishedRaw: it?.snippet?.publishedAt || ""
-    })).filter((v) => v.title && v.videoId && v.publishedRaw);
-
-    if (!items.length) throw new Error("no upload entries");
-
-    for (const item of items) {
-      const videoRes = await fetchWithTimeout(`https://yt.lemnoslife.com/noKey/videos?part=contentDetails,snippet&id=${item.videoId}`);
-      if (!videoRes.ok) continue;
-      const videoData = await videoRes.json();
-      const iso = videoData?.items?.[0]?.contentDetails?.duration || "";
-      const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-      const durationSeconds = match ? (Number(match[1] || 0) * 3600) + (Number(match[2] || 0) * 60) + Number(match[3] || 0) : 0;
-      if (durationSeconds >= 180) {
-        return {
-          title: item.title,
-          url: `https://www.youtube.com/watch?v=${item.videoId}`,
-          date: item.publishedRaw.slice(0, 10),
-          showForDays: 14
-        };
-      }
-    }
-
-    const newest = items[0];
-    return {
-      title: newest.title,
-      url: `https://www.youtube.com/watch?v=${newest.videoId}`,
-      date: newest.publishedRaw.slice(0, 10),
-      showForDays: 14
-    };
-  }
-
-  try {
-    return await pickLatestLongVideoFromApi();
-  } catch {
-    // fallback to RSS-based proxies
-  }
-
-  const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${VIDEO_CHANNEL_ID}`;
-  const sources = [
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(feedUrl)}`,
-    `https://r.jina.ai/http://www.youtube.com/feeds/videos.xml?channel_id=${VIDEO_CHANNEL_ID}`
-  ];
-
-  for (const url of sources) {
-    try {
-      const response = await fetchWithTimeout(url);
-      if (!response.ok) continue;
-      const xml = await response.text();
-      const parsed = new DOMParser().parseFromString(xml, "text/xml");
-      const entry = parsed.querySelector("entry");
-      if (!entry) continue;
-
-      const title = entry.querySelector("title")?.textContent?.trim();
-      const videoId = entry.querySelector("yt\:videoId, videoId")?.textContent?.trim();
-      const publishedRaw = entry.querySelector("published")?.textContent?.trim();
-      const linkHref = entry.querySelector("link")?.getAttribute("href")?.trim();
-      const finalUrl = videoId ? `https://www.youtube.com/watch?v=${videoId}` : linkHref;
-      if (!title || !finalUrl || !publishedRaw) continue;
-
-      return {
-        title,
-        url: finalUrl,
-        date: publishedRaw.slice(0, 10),
-        showForDays: 14
-      };
-    } catch {
-      // try next source
-    }
-  }
-
-  return LATEST_VIDEO_FALLBACK;
+  renderCompareBar(APPS);
 }
 
 function setupVideoPing(videoData) {
   const box = document.getElementById("videoPing");
   if (!box || !videoData?.url || !videoData?.date) return;
-
-  const today = new Date();
-  const videoDate = new Date(`${videoData.date}T00:00:00`);
-  if (Number.isNaN(videoDate.getTime())) return;
-
-  const diffDays = Math.floor((today - videoDate) / (1000 * 60 * 60 * 24));
-  const showFor = Number(videoData.showForDays ?? 14);
-  if (diffDays < 0 || diffDays > showFor) return;
-
-  box.innerHTML = `
-    <div class="label">
-      <div class="pulse">${tr("new_video")}</div>
-      <div class="tiny">${diffDays} ${tr("days_ago")}</div>
-    </div>
-    <p class="video-title">${escapeHtml(videoData.title)}</p>
-    <div class="video-actions">
-      <a class="btn primary" href="${videoData.url}" target="_blank" rel="noreferrer">${tr("watch_now")}</a>
-      <a class="btn" href="https://www.youtube.com/channel/${VIDEO_CHANNEL_ID}" target="_blank" rel="noreferrer">${tr("channel")}</a>
-    </div>
-  `;
+  const diffDays = Math.floor((new Date() - new Date(`${videoData.date}T00:00:00`)) / 86400000);
+  if (diffDays < 0 || diffDays > Number(videoData.showForDays || 14)) return;
+  box.innerHTML = `<div class="label"><div class="pulse">${tr("new_video")}</div><div class="tiny">${diffDays} ${tr("days_ago")}</div></div><p class="tiny">${escapeHtml(videoData.title)}</p><div class="hero-cta-row"><a class="btn primary" href="${videoData.url}" target="_blank" rel="noreferrer">${tr("watch_now")}</a><a class="btn" href="https://www.youtube.com/channel/${VIDEO_CHANNEL_ID}" target="_blank" rel="noreferrer">${tr("channel")}</a></div>`;
   box.hidden = false;
 }
 
 function updateStats(apps) {
   const totalDownloads = apps.reduce((sum, app) => sum + Number(app.downloads || 0), 0);
   const featuredCount = apps.filter((app) => app.featured).length;
-
   document.getElementById("statApps").textContent = String(apps.length);
   document.getElementById("statDownloads").textContent = totalDownloads.toLocaleString(state.lang === "it" ? "it-IT" : "en-US");
   document.getElementById("statFeatured").textContent = String(featuredCount);
   document.getElementById("statFavorites").textContent = String(state.favorites.size);
 }
 
+function updateSpotlight(apps) {
+  const box = document.getElementById("spotlightPick");
+  if (!box || !apps.length) return;
+  const top = [...apps].sort((a, b) => Number(b.downloads || 0) - Number(a.downloads || 0))[0];
+  box.textContent = `${top.title} · ${Number(top.downloads || 0).toLocaleString(state.lang === "it" ? "it-IT" : "en-US")}`;
+}
+
+function renderCompareBar(apps) {
+  const bar = document.getElementById("compareBar");
+  const out = document.getElementById("compareList");
+  if (!bar || !out) return;
+  const list = [...state.compare].map((id) => apps.find((a) => a.id === id)?.title).filter(Boolean);
+  if (!list.length) {
+    bar.hidden = true;
+    out.textContent = "";
+    return;
+  }
+  bar.hidden = false;
+  out.textContent = list.join(" • ");
+}
+
 function render(apps) {
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
-
   state.shownApps = apps.length;
-  document.getElementById("resultCount").textContent = tr("result_count")
-    .replace("{shown}", String(state.shownApps))
-    .replace("{total}", String(state.totalApps));
+  document.getElementById("resultCount").textContent = tr("result_count").replace("{shown}", state.shownApps).replace("{total}", state.totalApps);
 
   if (!apps.length) {
-    grid.innerHTML = `<div class="empty-wrap"><p class="empty">${tr("empty")}</p><p class="tiny">${tr("empty_hint")}</p></div>`;
+    grid.innerHTML = `<div class="empty-wrap"><p>${tr("empty")}</p><p class="tiny">${tr("empty_hint")}</p></div>`;
     return;
   }
 
   for (const a of apps) {
     const isFav = state.favorites.has(a.id);
-    const el = document.createElement("article");
-    el.className = "card";
-    el.dataset.appId = a.id || "";
-
-    const badge = a.badge ? `<div class="badge">${escapeHtml(a.badge)}</div>` : "";
+    const isCmp = state.compare.has(a.id);
+    const card = document.createElement("article");
+    card.className = "card";
+    card.dataset.appId = a.id || "";
     const tags = (a.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("");
     const req = localizeValue(a.requires) ? `${tr("requires")}: ${escapeHtml(localizeValue(a.requires))}` : "";
-    const thumb = a.preview
-      ? `<img src="${escapeHtml(a.preview)}" alt="Preview ${escapeHtml(a.title)}" loading="lazy">`
-      : `<span>${escapeHtml(a.thumbText || "Preview")}</span>`;
-
-    el.innerHTML = `
-      ${badge}
-      <button class="icon-btn favorite-btn ${isFav ? "active" : ""}" data-action="favorite" data-id="${escapeHtml(a.id)}" aria-label="favorite">★</button>
+    card.innerHTML = `
+      <button class="icon-btn compare-btn ${isCmp ? "active" : ""}" data-action="compare" data-id="${escapeHtml(a.id)}" aria-label="compare">⇄</button>
       <button class="icon-btn share-btn" data-action="share" data-id="${escapeHtml(a.id)}" aria-label="share">↗</button>
-      <div class="thumb">${thumb}</div>
+      <button class="icon-btn favorite-btn ${isFav ? "active" : ""}" data-action="favorite" data-id="${escapeHtml(a.id)}" aria-label="favorite">★</button>
+      <div class="thumb">${a.preview ? `<img src="${escapeHtml(a.preview)}" alt="Preview ${escapeHtml(a.title)}" loading="lazy">` : ""}</div>
       <div class="content">
-        <h3 title="${escapeHtml(a.title)}">${escapeHtml(a.title)}${a.new ? '<span class="new-mini">NEW</span>' : ""}</h3>
+        <h3>${escapeHtml(a.title)}${a.new ? '<span class="new-mini">NEW</span>' : ""}</h3>
         <p class="meta">${escapeHtml(localizeValue(a.desc))}</p>
         <div class="tags">${tags}</div>
         ${req ? `<p class="meta">${req}</p>` : ""}
-        <div class="meta-row tiny">${(a.date || "").replaceAll("-", "/")} · ${Number(a.downloads || 0).toLocaleString(state.lang === "it" ? "it-IT" : "en-US")}</div>
-        <p class="tiny card-cta">${tr("tap_to_open")}</p>
-      </div>
-    `;
-
-    grid.appendChild(el);
+        <p class="tiny">${(a.date || "").replaceAll("-", "/")} · ${Number(a.downloads || 0).toLocaleString(state.lang === "it" ? "it-IT" : "en-US")}</p>
+        <p class="tiny">${tr("tap_to_open")}</p>
+      </div>`;
+    grid.appendChild(card);
   }
 }
 
 function sortApps(apps, mode) {
   const byDate = (a) => new Date(a.date || "1970-01-01").getTime();
-
   return [...apps].sort((a, b) => {
     if (mode === "downloads") return Number(b.downloads || 0) - Number(a.downloads || 0);
     if (mode === "trending") {
@@ -399,10 +294,7 @@ function resetQuickFilters() {
 
 function setupQuickFilters(applyFilters) {
   const container = document.getElementById("quickFilters");
-  container.innerHTML = QUICK_FILTERS.map((f) => `
-    <button type="button" class="quick-chip" data-chip="${f.id}">${tr(f.label)}</button>
-  `).join("");
-
+  container.innerHTML = QUICK_FILTERS.map((f) => `<button type="button" class="quick-chip" data-chip="${f.id}">${f.label[state.lang]}</button>`).join("");
   container.querySelectorAll(".quick-chip").forEach((btn) => {
     btn.addEventListener("click", () => {
       QUICK_FILTERS.find((f) => f.id === btn.dataset.chip)?.apply();
@@ -411,7 +303,6 @@ function setupQuickFilters(applyFilters) {
       applyFilters();
     });
   });
-
   container.querySelector('[data-chip="all"]')?.classList.add("active");
 }
 
@@ -426,173 +317,170 @@ function setupFilters(allApps) {
   function buildTagOptions() {
     const current = tag.value;
     tag.innerHTML = `<option value="">${tr("all_tags")}</option>`;
-
-    const allTags = uniq(allApps.flatMap((a) => a.tags || []));
-    for (const t of allTags) {
-      const opt = document.createElement("option");
-      opt.value = t;
-      opt.textContent = t;
-      tag.appendChild(opt);
+    for (const t of uniq(allApps.flatMap((a) => a.tags || []))) {
+      const opt = document.createElement("option"); opt.value = t; opt.textContent = t; tag.appendChild(opt);
     }
     tag.value = current;
-  }
-
-  function updateSelectState() {
-    [tag, level, sort].forEach((select) => {
-      const hasValue = Boolean(select.value);
-      select.dataset.selected = hasValue ? "true" : "false";
-    });
   }
 
   function apply() {
     const query = q.value.trim().toLowerCase();
     const t = tag.value;
     const l = level.value;
-
     const filtered = allApps.filter((a) => {
       const hay = `${a.title} ${localizeValue(a.desc)} ${(a.tags || []).join(" ")} ${localizeValue(a.requires)}`.toLowerCase();
-      const okQ = !query || hay.includes(query);
-      const okT = !t || (a.tags || []).includes(t);
-      const okL = !l || (a.level || "") === l;
-      const okF = !featuredOnly.checked || Boolean(a.featured);
-      const okFav = !favoritesOnly.checked || state.favorites.has(a.id);
-      return okQ && okT && okL && okF && okFav;
+      return (!query || hay.includes(query)) && (!t || (a.tags || []).includes(t)) && (!l || (a.level || "") === l) && (!featuredOnly.checked || a.featured) && (!favoritesOnly.checked || state.favorites.has(a.id));
     });
-
-    updateSelectState();
     render(sortApps(filtered, sort.value));
+    renderCompareBar(allApps);
   }
 
+  [q, tag, level, sort, featuredOnly, favoritesOnly].forEach((n) => n.addEventListener(n === q ? "input" : "change", apply));
   buildTagOptions();
-  updateSelectState();
-  [q, tag, level, sort, featuredOnly, favoritesOnly].forEach((node) => {
-    node.addEventListener(node === q ? "input" : "change", apply);
-  });
-
   setupQuickFilters(apply);
-
   return { apply, buildTagOptions };
 }
 
 function setupLanguage(onChange) {
-  document.getElementById("langEN").addEventListener("click", () => {
-    state.lang = "en";
-    localStorage.setItem("unoq_lang", state.lang);
-    onChange();
-  });
-
-  document.getElementById("langIT").addEventListener("click", () => {
-    state.lang = "it";
-    localStorage.setItem("unoq_lang", state.lang);
-    onChange();
-  });
-}
-
-function appUrlForId(id) {
-  return `${window.location.origin}${window.location.pathname}#app=${encodeURIComponent(id)}`;
+  document.getElementById("langEN").addEventListener("click", () => { state.lang = "en"; localStorage.setItem("unoq_lang", state.lang); onChange(); });
+  document.getElementById("langIT").addEventListener("click", () => { state.lang = "it"; localStorage.setItem("unoq_lang", state.lang); onChange(); });
 }
 
 function setupCardActions(apps, refresh) {
   document.addEventListener("click", async (e) => {
-    const actionBtn = e.target.closest("[data-action]");
-    if (actionBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      const action = actionBtn.dataset.action;
-      const id = actionBtn.dataset.id;
+    const btn = e.target.closest("[data-action]");
+    if (btn) {
+      e.preventDefault(); e.stopPropagation();
+      const { action, id } = btn.dataset;
       const app = apps.find((a) => a.id === id);
       if (!app) return;
 
       if (action === "favorite") {
-        if (state.favorites.has(id)) state.favorites.delete(id);
-        else state.favorites.add(id);
-        saveFavorites();
-        updateStats(apps);
-        refresh();
-        return;
+        state.favorites.has(id) ? state.favorites.delete(id) : state.favorites.add(id);
+        saveSet("unoq_favorites", state.favorites); updateStats(apps); refresh(); return;
+      }
+
+      if (action === "compare") {
+        if (state.compare.has(id)) { state.compare.delete(id); showToast(tr("compare_removed")); }
+        else { if (state.compare.size >= 3) state.compare.delete([...state.compare][0]); state.compare.add(id); showToast(tr("compare_added")); }
+        saveSet("unoq_compare", state.compare); refresh(); return;
       }
 
       if (action === "share") {
-        const url = appUrlForId(id);
+        const url = `${window.location.origin}${window.location.pathname}#app=${encodeURIComponent(id)}`;
         try {
           if (navigator.share) await navigator.share({ title: app.title, url });
-          else {
-            await navigator.clipboard.writeText(url);
-            showToast(tr("copied"));
-          }
-        } catch {
-          // share canceled or clipboard blocked
-        }
-        return;
+          else { await navigator.clipboard.writeText(url); showToast(tr("copied")); }
+        } catch {}
       }
+      return;
     }
 
     if (e.target.closest("a") || e.target.closest("button")) return;
     const card = e.target.closest(".card");
-    if (!card) return;
-    const id = card.dataset.appId;
-    if (!id) return;
-    window.location.href = `app.html?id=${encodeURIComponent(id)}`;
+    if (!card?.dataset.appId) return;
+    window.location.href = `app.html?id=${encodeURIComponent(card.dataset.appId)}`;
   });
 }
 
-function focusHashApp(apps) {
-  const hash = window.location.hash;
-  const match = hash.match(/app=([^&]+)/);
-  if (!match) return;
-  const id = decodeURIComponent(match[1]);
-  const app = apps.find((a) => a.id === id);
-  if (!app) return;
-  const q = document.getElementById("q");
-  q.value = app.title;
+function setupGuideModal() {
+  const modal = document.getElementById("guideModal");
+  document.getElementById("openGuide")?.addEventListener("click", () => modal?.showModal());
+  document.getElementById("closeGuide")?.addEventListener("click", () => modal?.close());
 }
 
-function setupQolButtons(applyFilters) {
-  const clearBtn = document.getElementById("clearFilters");
-  if (!clearBtn) return;
-  clearBtn.addEventListener("click", () => {
+function setupQolButtons(apps, apply) {
+  document.getElementById("clearFilters")?.addEventListener("click", () => {
     document.getElementById("q").value = "";
     document.getElementById("featuredOnly").checked = false;
     document.getElementById("favoritesOnly").checked = false;
     resetQuickFilters();
-    applyFilters();
+    apply();
   });
+
+  document.getElementById("randomApp")?.addEventListener("click", () => {
+    if (!apps.length) return;
+    const pick = apps[Math.floor(Math.random() * apps.length)];
+    showToast(tr("random_redirect"));
+    setTimeout(() => { window.location.href = `app.html?id=${encodeURIComponent(pick.id)}`; }, 180);
+  });
+
+  document.getElementById("shareStore")?.addEventListener("click", async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.share) await navigator.share({ title: "UNO Q APPS STORE", url });
+      else { await navigator.clipboard.writeText(url); showToast(tr("copied")); }
+    } catch {}
+  });
+
+  document.getElementById("boostRandom")?.addEventListener("click", () => {
+    document.getElementById("randomApp")?.click();
+  });
+  document.getElementById("boostGuide")?.addEventListener("click", () => {
+    document.getElementById("openGuide")?.click();
+  });
+
+  document.getElementById("compareClear")?.addEventListener("click", () => {
+    state.compare.clear(); saveSet("unoq_compare", state.compare); apply();
+  });
+
+  const compact = document.getElementById("compactMode");
+  if (compact) compact.addEventListener("change", () => document.body.classList.toggle("compact", compact.checked));
+
+  const theme = document.getElementById("themeSwitch");
+  if (theme) theme.addEventListener("click", () => document.body.classList.toggle("theme-cobalt"));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "/" && document.activeElement?.tagName !== "INPUT") {
+      e.preventDefault(); document.getElementById("q")?.focus();
+    }
+  });
+
+  const backTop = document.getElementById("backToTop");
+  if (backTop) {
+    const onScroll = () => backTop.classList.toggle("show", window.scrollY > 280);
+    window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+    backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  }
+}
+
+function setupLiveTicker(apps) {
+  const out = document.getElementById("liveTickerText");
+  if (!out || !apps.length) return;
+  let i = 0;
+  const top = [...apps].sort((a, b) => Number(b.downloads || 0) - Number(a.downloads || 0)).slice(0, 5);
+  const tick = () => {
+    const app = top[i % top.length];
+    out.textContent = `${app.title} • ${Number(app.downloads || 0).toLocaleString(state.lang === "it" ? "it-IT" : "en-US")} downloads`;
+    i += 1;
+  };
+  tick();
+  clearInterval(setupLiveTicker.timer);
+  setupLiveTicker.timer = setInterval(tick, 2200);
 }
 
 function init() {
-  if (typeof APPS === "undefined") {
-    console.error("APPS is undefined: check apps/apps.js import path.");
-    return;
-  }
-
+  if (typeof APPS === "undefined") return;
   state.totalApps = APPS.length;
   const filters = setupFilters(APPS);
-  let currentVideoData = LATEST_VIDEO_FALLBACK;
 
   const refresh = () => {
     applyI18nText();
-    setupVideoPing(currentVideoData);
+    setupVideoPing(state.video);
     filters.buildTagOptions();
     filters.apply();
     updateStats(APPS);
+    updateSpotlight(APPS);
     setupQuickFilters(filters.apply);
+    setupLiveTicker(APPS);
   };
 
   setupLanguage(refresh);
-  setupQolButtons(filters.apply);
+  setupGuideModal();
+  setupQolButtons(APPS, filters.apply);
   setupCardActions(APPS, filters.apply);
 
-  focusHashApp(APPS);
   refresh();
-
-  fetchLatestVideo().then((videoData) => {
-    if (videoData?.url) {
-      currentVideoData = videoData;
-      setupVideoPing(currentVideoData);
-    }
-  }).catch(() => {
-    // keep fallback video data
-  });
 }
 
 init();
