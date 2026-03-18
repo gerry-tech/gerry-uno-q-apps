@@ -1276,7 +1276,6 @@ App.run(user_loop=loop)`,
     estTime: "40 min",
     complexity: "Hard",
     featured: true,
-    new: true,
     date: "2026/03/15",
     codePreviewCpp: `#include <Arduino_RouterBridge.h>
 
@@ -1702,6 +1701,8 @@ button {
     level: "intermedie",
     estTime: "5-10 min", 
     complexity: "Easy-Medium",
+    date: "2026/03/18",
+    new: true,
     codePreviewCpp: ` #include <Wire.h>
 #include <Arduino_RouterBridge.h>
 #include "draw.h"
