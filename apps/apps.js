@@ -1688,4 +1688,136 @@ button {
 </body>
 </html> `,
   },
+  {
+    id: "mpu6050",
+    title: "Use an MPU6050 to read data",
+    desc: "Use a MPU6050 gyroscope/accelerometer, to read the axes and draw an arrow in the LED Matrix corresponding to the tilt direction",
+    tags: ["MPU6050","LED","EASY"],
+    requires: "UNO Q, USB-C Cable, MPU6050",
+    zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/mpu6050/mpu6050.zi",
+    preview: "apps/mpu6050/preview2.png",
+    badge: "FEATURED",
+    demo: "https://www.youtube.com/watch?v=AucktvXlmMQ",
+    downloads: 51,
+    level: "intermedie",
+    estTime: "5-10 min", 
+    complexity: "Easy-Medium",
+    codePreviewCpp: ` #include <Wire.h>
+#include <Arduino_RouterBridge.h>
+#include "draw.h"
+#include <Arduino_LED_Matrix.h>
+
+Arduino_LED_Matrix matrix;
+
+const uint8_t MPU_ADDR = 0x68;
+
+int16_t AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ;
+
+void writeRegister(uint8_t reg, uint8_t data) {
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(reg);
+  Wire.write(data);
+  Wire.endTransmission();
+}
+
+bool readRegisters(uint8_t startReg, uint8_t count, uint8_t *dest) {
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(startReg);
+
+  if (Wire.endTransmission(false) != 0) {
+    return false;
+  }
+
+  uint8_t received = Wire.requestFrom(MPU_ADDR, count, true);
+  if (received != count) {
+    return false;
+  }
+
+  for (uint8_t i = 0; i < count; i++) {
+    dest[i] = Wire.read();
+  }
+
+  return true;
+}
+
+void setup() {
+  matrix.begin();
+  matrix.setGrayscaleBits(3);
+  Wire.begin();
+  Bridge.begin();
+  Monitor.begin(115200);
+  while (!Monitor);
+
+  delay(100);
+
+  // Sveglia il sensore
+  writeRegister(0x6B, 0x00);
+  delay(100);
+
+  Monitor.println("MPU6050 avviato");
+}
+
+void loop() {
+  uint8_t buffer[14];
+
+  if (readRegisters(0x3B, 14, buffer)) {
+    AcX = (buffer[0] << 8) | buffer[1];
+    AcY = (buffer[2] << 8) | buffer[3];
+    AcZ = (buffer[4] << 8) | buffer[5];
+    Tmp = (buffer[6] << 8) | buffer[7];
+    GyX = (buffer[8] << 8) | buffer[9];
+    GyY = (buffer[10] << 8) | buffer[11];
+    GyZ = (buffer[12] << 8) | buffer[13];
+
+    float ax = AcX / 16384.0;
+    float ay = AcY / 16384.0;
+    float az = AcZ / 16384.0;
+
+    float angleX = atan2(ay, az) * 180 / PI;
+    float angleY = atan2(-ax, sqrt(ay * ay + az * az)) * 180 / PI;
+
+    Monitor.print("AngleX: ");
+    Monitor.print(angleX);
+
+    Monitor.print("  AngleY: ");
+    Monitor.println(angleY);
+
+    if (angleX >= 40){
+      matrix.draw(leftarrow);
+    }
+    else if (angleX <= -40){
+      matrix.draw(rightarrow);
+    }
+    else if (angleY >= 20){
+      matrix.draw(downarrow);
+    }
+    else if (angleY <= -20){
+      matrix.draw(uparrow);
+    }
+    else {
+      matrix.draw(normal);
+    }
+    
+  } else {
+    Monitor.println("Errore lettura MPU6050");
+  }
+
+  delay(200);
+}`,
+    codePreviewPy: `import time
+
+from arduino.app_utils import App
+
+print("Hello world!")
+
+
+def loop():
+    """This function is called repeatedly by the App framework."""
+    # You can replace this with any code you want your App to run repeatedly.
+    time.sleep(10)
+
+
+# See: https://docs.arduino.cc/software/app-lab/tutorials/getting-started/#app-run
+App.run(user_loop=loop) `,
+  }
 ];
