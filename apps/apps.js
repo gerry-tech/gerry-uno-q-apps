@@ -1820,5 +1820,566 @@ def loop():
 
 # See: https://docs.arduino.cc/software/app-lab/tutorials/getting-started/#app-run
 App.run(user_loop=loop) `,
+  },
+  {
+    id: "sismografo",
+    title: "A seismograph made with Arduino, which shows the vibrations of the plane (shocks, etc.)",
+    desc: "Download or copy the app code, launch it, and the web page will show the changes in surrounding vibrations and if they are high, an alarm will sound",
+    tags: ["MPU6050","BUZZER","USEFULL","WEB"],
+    requires: "UNO Q, MPU6050, Buzzer,",
+    zip: "https://github.com/gerry-tech/gerry-uno-q-apps/raw/refs/heads/main/apps/sismografo/Sismografo.zip",
+    preview: "apps/pong/preview4.png",
+    badge: "CRAZY",
+    demo: "https://www.youtube.com/watch?v=Eo5DbIOx8zc",
+    downloads: 823,
+    level: "advanced",
+    estTime: "45 min",
+    complexity: "Hard",
+    featured: true,
+    new: true,
+    date: "2026/03/24",
+    codePreviewCpp: `#include <Wire.h>
+#include <Arduino_RouterBridge.h>
+
+#define MPU6050_ADDR 0x68
+int BUZZER_PIN = 8;
+
+float accelX = 0.0;
+float accelY = 0.0;
+float accelZ = 0.0;
+
+float lastX = 0.0;
+float lastY = 0.0;
+float lastZ = 0.0;
+
+float magnitude = 0.0;
+float filteredMagnitude = 0.0;
+
+bool alarmActive = false;
+
+const float FILTER_ALPHA = 0.25;
+const float ALERT_THRESHOLD = 0.08;
+const unsigned long READ_INTERVAL = 40;
+
+unsigned long lastRead = 0;
+
+void writeMPU(byte reg, byte data) {
+  Wire.beginTransmission(MPU6050_ADDR);
+  Wire.write(reg);
+  Wire.write(data);
+  Wire.endTransmission();
+}
+
+int16_t read16(byte reg) {
+  Wire.beginTransmission(MPU6050_ADDR);
+  Wire.write(reg);
+  Wire.endTransmission(false);
+
+  Wire.requestFrom(MPU6050_ADDR, 2, true);
+  int16_t value = (Wire.read() << 8) | Wire.read();
+  return value;
+}
+
+void initMPU() {
+  writeMPU(0x6B, 0x00); // wake up
+  writeMPU(0x1C, 0x00); // accel ±2g
+  writeMPU(0x1B, 0x00); // gyro ±250
+  delay(100);
+}
+
+void updateBuzzer() {
+  if (magnitude >= ALERT_THRESHOLD) {
+    alarmActive = true;
+    digitalWrite(BUZZER_PIN, HIGH);
+  } else {
+    alarmActive = false;
+    digitalWrite(BUZZER_PIN, LOW);
+  }
+}
+
+void readMPU() {
+  int16_t rawAx = read16(0x3B);
+  int16_t rawAy = read16(0x3D);
+  int16_t rawAz = read16(0x3F);
+
+  float newX = rawAx / 16384.0;
+  float newY = rawAy / 16384.0;
+  float newZ = rawAz / 16384.0;
+
+  float dx = newX - lastX;
+  float dy = newY - lastY;
+  float dz = newZ - lastZ;
+
+  float rawMagnitude = sqrt(dx * dx + dy * dy + dz * dz);
+  filteredMagnitude = FILTER_ALPHA * rawMagnitude + (1.0 - FILTER_ALPHA) * filteredMagnitude;
+
+  accelX = newX;
+  accelY = newY;
+  accelZ = newZ;
+  magnitude = filteredMagnitude;
+
+  lastX = newX;
+  lastY = newY;
+  lastZ = newZ;
+
+  updateBuzzer();
+}
+
+String getAccelX() {
+  return String(accelX, 4);
+}
+
+String getAccelY() {
+  return String(accelY, 4);
+}
+
+String getAccelZ() {
+  return String(accelZ, 4);
+}
+
+String getMagnitude() {
+  return String(magnitude, 4);
+}
+
+String getAlarmState() {
+  return alarmActive ? "1" : "0";
+}
+
+String resetSeismo() {
+  magnitude = 0.0;
+  filteredMagnitude = 0.0;
+  alarmActive = false;
+  digitalWrite(BUZZER_PIN, LOW);
+  return "ok";
+}
+
+void setup() {
+  Wire.begin();
+
+  pinMode(BUZZER_PIN, OUTPUT);
+  digitalWrite(BUZZER_PIN, LOW);
+
+  initMPU();
+
+  Bridge.begin();
+
+  Monitor.begin(9600);
+
+  Bridge.provide("getAccelX", getAccelX);
+  Bridge.provide("getAccelY", getAccelY);
+  Bridge.provide("getAccelZ", getAccelZ);
+  Bridge.provide("getMagnitude", getMagnitude);
+  Bridge.provide("getAlarmState", getAlarmState);
+  Bridge.provide("resetSeismo", resetSeismo);
+
+  readMPU();
+  delay(50);
+  readMPU();
+
+  Monitor.println("Sismografo pronto");
+}
+
+void loop() {
+  if (millis() - lastRead >= READ_INTERVAL) {
+    lastRead = millis();
+    readMPU();
+  }
+} `,
+    codePreviewPy: `import os
+import time
+import threading
+from collections import deque
+
+from arduino.app_bricks.web_ui import WebUI
+from arduino.app_utils import Bridge, App
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', 'web'))
+
+ui = WebUI(
+    addr='0.0.0.0',
+    port=7000,
+    ui_path_prefix='',
+    api_path_prefix='/api',
+    assets_dir_path=ASSETS_DIR,
+    use_tls=False,
+)
+
+history = deque(maxlen=100)
+
+state = {
+    'x': 0.0,
+    'y': 0.0,
+    'z': 0.0,
+    'magnitude': 0.0,
+    'alarm': 0,
+    'status': 'CALMO',
+    'events': 0,
+}
+
+last_event_time = 0.0
+
+
+def to_float(value, default=0.0):
+    try:
+        return float(value)
+    except Exception:
+        return default
+
+
+def to_int(value, default=0):
+    try:
+        return int(value)
+    except Exception:
+        return default
+
+
+def get_status(mag):
+    if mag >= 0.08:
+        return 'ALLERTA'
+    if mag >= 0.03:
+        return 'MOVIMENTO'
+    return 'CALMO'
+
+
+def read_sensor_loop():
+    global last_event_time
+
+    while True:
+        try:
+            x = to_float(Bridge.call('getAccelX'))
+            y = to_float(Bridge.call('getAccelY'))
+            z = to_float(Bridge.call('getAccelZ'))
+            mag = to_float(Bridge.call('getMagnitude'))
+            alarm = to_int(Bridge.call('getAlarmState'))
+
+            status = get_status(mag)
+            now = time.time()
+
+            if alarm == 1 and (now - last_event_time) > 1:
+                state['events'] += 1
+                last_event_time = now
+
+            state['x'] = round(x, 4)
+            state['y'] = round(y, 4)
+            state['z'] = round(z, 4)
+            state['magnitude'] = round(mag, 4)
+            state['alarm'] = alarm
+            state['status'] = status
+
+            history.append(round(mag, 4))
+        except Exception as e:
+            print('Errore lettura sensore:', e)
+
+        time.sleep(0.1)
+
+
+def api_data():
+    return {
+        'state': state,
+        'history': list(history),
+    }
+
+
+def api_reset():
+    state['events'] = 0
+    history.clear()
+
+    try:
+        Bridge.call('resetSeismo')
+    except Exception as e:
+        return {'ok': False, 'error': str(e)}
+
+    return {'ok': True}
+
+
+ui.expose_api('GET', '/data', api_data)
+ui.expose_api('GET', '/reset', api_reset)
+
+threading.Thread(target=read_sensor_loop, daemon=True).start()
+
+ui.start()
+print('Web UI locale:', ui.local_url)
+print('Web UI esterna:', ui.url)
+
+App.run() `,
+    codePreviewJs: `const statusEl = document.getElementById("status");
+const alarmEl = document.getElementById("alarm");
+const eventsEl = document.getElementById("events");
+const xVal = document.getElementById("xVal");
+const yVal = document.getElementById("yVal");
+const zVal = document.getElementById("zVal");
+const magVal = document.getElementById("magVal");
+const resetBtn = document.getElementById("resetBtn");
+
+const canvas = document.getElementById("chart");
+const ctx = canvas.getContext("2d");
+
+function drawChart(values) {
+  const w = canvas.width;
+  const h = canvas.height;
+
+  ctx.clearRect(0, 0, w, h);
+
+  ctx.strokeStyle = "#334155";
+  ctx.lineWidth = 1;
+
+  for (let i = 0; i < 5; i++) {
+    let y = (h / 4) * i;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+    ctx.stroke();
+  }
+
+  if (values.length === 0) return;
+
+  let maxVal = 0.1;
+  for (let v of values) {
+    if (v > maxVal) maxVal = v;
+  }
+
+  ctx.strokeStyle = "#60a5fa";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+
+  values.forEach((v, i) => {
+    const x = (i / (values.length - 1 || 1)) * w;
+    const y = h - (v / maxVal) * (h - 20) - 10;
+
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+
+  ctx.stroke();
+}
+
+function updateStatus(status) {
+  statusEl.textContent = status;
+  statusEl.className = "big";
+
+  if (status === "CALMO") {
+    statusEl.classList.add("status-calm");
+  } else if (status === "MOVIMENTO") {
+    statusEl.classList.add("status-move");
+  } else {
+    statusEl.classList.add("status-alert");
+  }
+}
+
+function updateAlarm(alarm) {
+  if (alarm === 1) {
+    alarmEl.textContent = "ON";
+    alarmEl.className = "big alarm-on";
+  } else {
+    alarmEl.textContent = "OFF";
+    alarmEl.className = "big alarm-off";
+  }
+}
+
+async function loadData() {
+  try {
+    const res = await fetch("/api/data");
+    const data = await res.json();
+
+    const s = data.state;
+    const history = data.history;
+
+    xVal.textContent = s.x.toFixed(4);
+    yVal.textContent = s.y.toFixed(4);
+    zVal.textContent = s.z.toFixed(4);
+    magVal.textContent = s.magnitude.toFixed(4);
+    eventsEl.textContent = s.events;
+
+    updateStatus(s.status);
+    updateAlarm(s.alarm);
+    drawChart(history);
+  } catch (e) {
+    console.error("Errore:", e);
+  }
+}
+
+resetBtn.addEventListener("click", async () => {
+  try {
+    await fetch("/api/reset");
+  } catch (e) {
+    console.error("Errore reset:", e);
+  }
+});
+
+setInterval(loadData, 100);
+loadData(); `,
+    codePreviewCss: `* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 34px;
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: #b8c4e0;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.middle {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.card {
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.big {
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #334155;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.chart-card canvas {
+  width: 100%;
+  background: #0b1220;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.bottom {
+  margin-top: 18px;
+}
+
+button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  background: #2563eb;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.status-calm {
+  color: #22c55e;
+}
+
+.status-move {
+  color: #facc15;
+}
+
+.status-alert {
+  color: #ef4444;
+}
+
+.alarm-on {
+  color: #ef4444;
+}
+
+.alarm-off {
+  color: #22c55e;
+}
+
+@media (max-width: 900px) {
+  .top,
+  .middle {
+    grid-template-columns: 1fr;
+  }
+} `,
+    codePreviewHtml: `<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNO Q SeismoLab</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>UNO Q SeismoLab</h1>
+    <p class="subtitle">Sismografo con MPU6050 + buzzer</p>
+
+    <div class="top">
+      <div class="card">
+        <h2>Stato</h2>
+        <div id="status" class="big">CALMO</div>
+      </div>
+
+      <div class="card">
+        <h2>Allarme</h2>
+        <div id="alarm" class="big">OFF</div>
+      </div>
+
+      <div class="card">
+        <h2>Eventi</h2>
+        <div id="events" class="big">0</div>
+      </div>
+    </div>
+
+    <div class="middle">
+      <div class="card">
+        <h2>Valori</h2>
+        <div class="row"><span>X</span><strong id="xVal">0.0000</strong></div>
+        <div class="row"><span>Y</span><strong id="yVal">0.0000</strong></div>
+        <div class="row"><span>Z</span><strong id="zVal">0.0000</strong></div>
+        <div class="row"><span>Magnitudo</span><strong id="magVal">0.0000</strong></div>
+      </div>
+
+      <div class="card chart-card">
+        <h2>Grafico live</h2>
+        <canvas id="chart" width="800" height="280"></canvas>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <button id="resetBtn">Reset eventi</button>
+    </div>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html> `,
   }
 ];
